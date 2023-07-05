@@ -1,6 +1,7 @@
 import networkx as nx
 from matplotlib import pyplot as plt
 
+from general_ea_settings import GRAPH_INSTANCE
 from instance_generator import load_instance
 
 
@@ -21,8 +22,7 @@ def plain_graph(adjency_matrix):
     nx.draw(graph, with_labels=True, pos=start_pos)
     plt.show()
 
-adjency_matrix = load_instance("instances/15_0.2_0.2.txt")
-plain_graph(adjency_matrix)
+plain_graph(GRAPH_INSTANCE)
 
 
 # 2. vertex cover renderer
@@ -47,8 +47,8 @@ def vertex_cover_graph(adjency_matrix, vertex_cover):
     nx.draw_networkx_nodes(graph, start_pos, nodelist=vertex_cover, node_color='r', node_size=500)
     plt.show()
 
-adjency_matrix = load_instance("instances/15_0.2_0.2.txt")
-vertex_cover_graph(adjency_matrix, [4, 7, 10])
+# adjency_matrix = load_instance("instances/5_0.2_0.2.txt")
+# vertex_cover_graph(adjency_matrix, [4, 7, 10])
 
 
 # 3. multiple vertex cover renderer

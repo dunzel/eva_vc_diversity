@@ -41,6 +41,7 @@ def load_instance(path):
         for line in file.readlines():
             i, j = line.split()
             adjency_matrix[int(i)][int(j)] = 1
+            adjency_matrix[int(j)][int(i)] = 1  # undirected graph!
 
     return adjency_matrix
 
