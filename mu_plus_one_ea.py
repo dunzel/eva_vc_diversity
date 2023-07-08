@@ -1,7 +1,11 @@
+import random
+import this
+
 from general_ea_settings import \
     NUM_GENERATIONS, POPULATION_GENERATOR, POPULATION_SIZE, NUM_GENES, MUTATION_TYPE, FITNESS_FUNCTION
 from pygad import pygad
 
+    # print("Generation " + ga_instance.logger.generation)
 ################################################
 # Setting for the mu+1 EA - no need to change  #
 ################################################
@@ -37,3 +41,17 @@ MU_PLUS_ONE_EA = pygad.GA(num_generations=NUM_GENERATIONS,
                           random_seed=RANDOM_SEED,
                           fitness_func=FITNESS_FUNCTION,
                           )
+
+
+def calculateNextGeneration(oldPopulation, offsprings):
+    for individual in oldPopulation:
+        FITNESS_FUNCTION(this, individual, 0)
+
+
+def run():
+    population = INITIAL_POPULATION
+    for i in range(NUM_GENERATIONS):
+        parent = random.choice(population)
+        offspring = MUTATION_TYPE(parent.clone, this)
+        population.__add__(offspring)
+        print(population)
