@@ -1,19 +1,18 @@
+from eva_algos.mu_plus_one_ea_custom import mu_plus_one_ea
 from general_settings import GRAPH_INSTANCE
 from instances.instance_renderer import vertex_cover_graph
-from eva_algos.mu_plus_one_ea_deprecated import MU_PLUS_ONE_EA
 from mvc_solver import ilp_solve_mvc
-from eva_algos.operators import get_vertex_nodes_idx
 
 
 def ea_experiment():
-    MU_PLUS_ONE_EA.run()
+    P, best_ind, best_found_vc, min_vc = mu_plus_one_ea()
+    print("Diverse population: ", end="")
+    print(P)
+    print("Best individual: ", end="")
+    print(best_ind)
+    vertex_cover_graph(GRAPH_INSTANCE, best_found_vc)
+    vertex_cover_graph(GRAPH_INSTANCE, min_vc)
 
-    solution, solution_fitness, solution_idx = MU_PLUS_ONE_EA.best_solution()
-    print("Parameters of the best solution : {solution}".format(solution=solution))
-    print("Fitness value of the best solution = {solution_fitness}".format(solution_fitness=solution_fitness))
-
-    solution_idx = get_vertex_nodes_idx(solution)
-    vertex_cover_graph(GRAPH_INSTANCE, solution_idx)
 
 
 def ilp_experiment():
