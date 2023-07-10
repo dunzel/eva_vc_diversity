@@ -1,11 +1,11 @@
-import numpy as np
-
-from general_ea_settings import GRAPH_INSTANCE
+from general_settings import GRAPH_INSTANCE
 from instance_renderer import vertex_cover_graph
 from mu_plus_one_ea import MU_PLUS_ONE_EA
+from mvc_solver import ilp_solve_mvc
 from operators import get_vertex_nodes_idx
 
-if __name__ == "__main__":
+
+def ea_experiment():
     MU_PLUS_ONE_EA.run()
 
     solution, solution_fitness, solution_idx = MU_PLUS_ONE_EA.best_solution()
@@ -14,3 +14,12 @@ if __name__ == "__main__":
 
     solution_idx = get_vertex_nodes_idx(solution)
     vertex_cover_graph(GRAPH_INSTANCE, solution_idx)
+
+
+def ilp_experiment():
+    mvc = ilp_solve_mvc(GRAPH_INSTANCE)
+    vertex_cover_graph(GRAPH_INSTANCE, mvc)
+
+
+if __name__ == "__main__":
+    ilp_experiment()

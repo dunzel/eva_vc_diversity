@@ -1,4 +1,4 @@
-from general_ea_settings import \
+from general_settings import \
     NUM_GENERATIONS, POPULATION_GENERATOR, POPULATION_SIZE, NUM_GENES, MUTATION_TYPE, FITNESS_FUNCTION
 from pygad import pygad
 

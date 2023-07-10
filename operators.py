@@ -5,7 +5,7 @@ def get_vertex_nodes_idx(ind):
     return [i for i, x in enumerate(ind) if x == 1]
 
 
-def multi_node_swap(offspring, ga_instance, adjency_matrix):
+def multi_node_swap(offspring, ga_instance, adjacency_matrix):
     vertex_nodes = get_vertex_nodes_idx(offspring[0])
     print(vertex_nodes)
     print(offspring[0])
@@ -13,8 +13,8 @@ def multi_node_swap(offspring, ga_instance, adjency_matrix):
 
     # get all nodes that are connected to the selected node
     connected_nodes = []
-    for i in range(len(adjency_matrix)):
-        if adjency_matrix[selected_node][i] == 1:
+    for i in range(len(adjacency_matrix)):
+        if adjacency_matrix[selected_node][i] == 1:
             connected_nodes.append(i)
     print(connected_nodes)
     # set all connected nodes to 1

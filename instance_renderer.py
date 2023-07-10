@@ -1,14 +1,11 @@
 import networkx as nx
 from matplotlib import pyplot as plt
 
-from general_ea_settings import GRAPH_INSTANCE
-from instance_generator import load_instance
-
 
 def plain_graph(adjacency_matrix):
     """
     basic graph renderer / without vertex cover
-    :param adjacency_matrix: adjency matrix of the graph
+    :param adjacency_matrix: adjacency matrix of the graph
     :return:
     """
     graph = nx.Graph()
@@ -29,7 +26,7 @@ def plain_graph(adjacency_matrix):
 def vertex_cover_graph(adjacency_matrix, vertex_cover):
     """
     basic graph renderer / without vertex cover
-    :param adjacency_matrix: adjency matrix of the graph
+    :param adjacency_matrix: adjacency matrix of the graph
     :param vertex_cover: vertex cover of the graph as a list of nodes
     :return:
     """

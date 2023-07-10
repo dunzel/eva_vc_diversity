@@ -1,3 +1,4 @@
 pygad
 networkx
 matplotlib
+gurobipy

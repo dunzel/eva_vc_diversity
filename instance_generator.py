@@ -21,7 +21,7 @@ def generate_graph(n, delta):
 
 def save_instance(adjacency_matrix, path):
     """
-    :param adjacency_matrix: adjency matrix of the graph
+    :param adjacency_matrix: adjacency matrix of the graph
     :param path: path to save the instance
     """
     with open(path, "w") as file:
@@ -35,7 +35,7 @@ def save_instance(adjacency_matrix, path):
 def load_instance(path):
     """
     :param path: path to load the instance
-    :return: the adjency matrix of the graph
+    :return: the adjacency matrix of the graph
     """
     with open(path, "r") as file:
         n = int(file.readline())
