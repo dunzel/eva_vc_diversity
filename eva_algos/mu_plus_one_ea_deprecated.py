@@ -1,5 +1,5 @@
 from general_settings import \
-    NUM_GENERATIONS, POPULATION_GENERATOR, POPULATION_SIZE, NUM_GENES, MUTATION_TYPE, FITNESS_FUNCTION
+    NUM_GENERATIONS, POPULATION_GENERATOR, MU, NUM_GENES, MUTATION_FX, FITNESS_FX
 from pygad import pygad
 
 
@@ -15,7 +15,7 @@ def on_generation(ga_instance):
 # Setting for the mu+1 EA - no need to change  #
 ################################################
 NUM_PARENTS_MATING = 1
-INITIAL_POPULATION = POPULATION_GENERATOR(POPULATION_SIZE, NUM_GENES)
+INITIAL_POPULATION = POPULATION_GENERATOR(MU, NUM_GENES)
 
 # assuming an individual is an array of 0s and 1s
 GENE_TYPE = int
@@ -41,9 +41,9 @@ MU_PLUS_ONE_EA = pygad.GA(num_generations=NUM_GENERATIONS,
                           keep_parents=KEEP_PARENTS,
                           keep_elitism=KEEP_ELITISM,
                           crossover_type=CROSSOVER_TYPE,
-                          mutation_type=MUTATION_TYPE,
+                          mutation_type=MUTATION_FX,
                           mutation_num_genes=MUTATION_NUM_GENES,
                           random_seed=RANDOM_SEED,
-                          fitness_func=FITNESS_FUNCTION,
+                          fitness_func=FITNESS_FX,
                           on_generation=on_generation
                           )
