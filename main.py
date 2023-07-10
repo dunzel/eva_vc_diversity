@@ -1,8 +1,8 @@
 from general_settings import GRAPH_INSTANCE
-from instance_renderer import vertex_cover_graph
-from mu_plus_one_ea import MU_PLUS_ONE_EA
+from instances.instance_renderer import vertex_cover_graph
+from eva_algos.mu_plus_one_ea_deprecated import MU_PLUS_ONE_EA
 from mvc_solver import ilp_solve_mvc
-from operators import get_vertex_nodes_idx
+from eva_algos.operators import get_vertex_nodes_idx
 
 
 def ea_experiment():
@@ -22,4 +22,4 @@ def ilp_experiment():
 
 
 if __name__ == "__main__":
-    ilp_experiment()
+    ea_experiment()

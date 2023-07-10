@@ -84,7 +84,7 @@ if __name__ == "__main__":
     from instance_generator import load_instance
     from mvc_solver import ilp_solve_mvc
 
-    adjacency_matrix = load_instance("instances/15_0.2_0.2.txt")
-    plain_graph(adjacency_matrix)
-    mvc_optimum = ilp_solve_mvc(adjacency_matrix)
-    vertex_cover_graph(adjacency_matrix, mvc_optimum)
+    loaded_adjacency_matrix = load_instance("5_0.2_0.2.txt")
+    plain_graph(loaded_adjacency_matrix)
+    mvc_optimum = ilp_solve_mvc(loaded_adjacency_matrix)
+    vertex_cover_graph(loaded_adjacency_matrix, mvc_optimum)
