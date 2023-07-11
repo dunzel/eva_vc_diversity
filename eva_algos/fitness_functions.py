@@ -45,6 +45,8 @@ def mvc_hamming_diversity(ind, population):
     :param ind: binary list
     :param population: list of binary lists
     :return: summed hamming diversity
+    WARNING:    is inefficient for large populations... maybe we should use a different diversity measure
+                or parallelize the calculation?
     """
 
     # Copy the population and remove the individual from the population
