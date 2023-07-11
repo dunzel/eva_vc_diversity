@@ -61,6 +61,16 @@ def mvc_hamming_diversity(ind, population):
 
     return diversity
 
+
+def mvc_hamming_diversity_cmp(ind, population):
+    # gets stuck in local optima because they have the same diversity rating as the optimal solution
+    diversity = 0
+    for i in population:
+        if i != ind:
+            diversity += hamming_distance(ind, i)
+
+    return diversity
+
 ##############################
 # Old fitness function ideas #
 ##############################
