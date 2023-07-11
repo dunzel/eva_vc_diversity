@@ -60,7 +60,7 @@ def mu_plus_one_ea():
 
     print(f"Finished after {i} generations")
 
-    best_ind = max(P, key=lambda ind: FITNESS_FX(ind, P))  # only useful for minimum vertex cover search
+    best_ind = max(P, key=lambda ind: C(ind, P))  # only useful for minimum vertex cover search
     best_found_vc = get_vertex_nodes_idx(best_ind)
 
     return P, best_ind, best_found_vc, min_vc
