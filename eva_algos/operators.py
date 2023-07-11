@@ -1,13 +1,35 @@
 import random
 
+########################################
+# Aux functions for single individuals #
+########################################
+
+
+def C(ind):
+    """Cost function"""
+    return sum(ind)
+
 
 def get_vertex_nodes_idx(ind):
     return [i for i, x in enumerate(ind) if x == 1]
 
+#########################################
+# Mutation operators for single parents #
+#########################################
+# The function header is always the same: def mutation_operator(parent, adjacency_matrix):
 
-def multi_node_swap(offspring, adjacency_matrix):
-    # create a deepcopy of the offspring
-    offspring = offspring.copy()
+
+def multi_node_swap(parent, adjacency_matrix):
+    """
+    Selects a node from the vertex cover and removes it.
+    To repair the solution, it adds all nodes that are connected to the removed node.
+    :param parent: binary list
+    :param adjacency_matrix: adjacency matrix of the graph
+    :return: mutated offspring that is a valid solution
+    """
+
+    # create a copy of the parent that will be mutated
+    offspring = parent.copy()
 
     # get all node indices that are in the vertex cover
     vertex_nodes = get_vertex_nodes_idx(offspring)

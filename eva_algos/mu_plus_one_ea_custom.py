@@ -1,15 +1,10 @@
 import random
 import numpy as np
 
-from eva_algos.operators import get_vertex_nodes_idx
+from eva_algos.operators import get_vertex_nodes_idx, C
 from general_settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
     FITNESS_FX, MUTATION_FX, NUM_GENES
 from mvc_solver import ilp_solve_mvc
-
-
-def C(ind):
-    """Cost function"""
-    return sum(ind)
 
 
 def mu_plus_one_ea(constrained=False):
