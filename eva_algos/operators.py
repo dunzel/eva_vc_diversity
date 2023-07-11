@@ -76,6 +76,14 @@ def repair_ind(ind, adjacency_matrix):
     return ind
 
 
+def get_unique_pop(P):
+    P = set(tuple(x) for x in P)
+    P = [list(x) for x in P]
+    return P
+
+
+def count_unique_pop(P):
+    return len(get_unique_pop(P))
 
 
 #########################################

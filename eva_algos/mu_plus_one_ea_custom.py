@@ -1,7 +1,7 @@
 import random
 import numpy as np
 
-from eva_algos.operators import get_vertex_nodes_idx, C, get_ind_from_vertex_nodes_idx
+from eva_algos.operators import get_vertex_nodes_idx, C, get_ind_from_vertex_nodes_idx, get_unique_pop
 from instances.instance_renderer import vertex_cover_graph
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
     FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED, EARLY_DIVERSE_STOP_CNT, DEBUG
@@ -19,11 +19,10 @@ def mu_plus_one_ea():
     P = POPULATION_GENERATOR(MU, NUM_GENES, ALPHA, OPT, GRAPH_INSTANCE, min_vc_ind)
 
     if DEBUG:
-        P = set(tuple(x) for x in P)
-        P = [list(x) for x in P]
+        P = get_unique_pop(P)
         print("Heuristic population found {} individuals".format(len(P)))
-        for ind in P:
-            vertex_cover_graph(GRAPH_INSTANCE, get_vertex_nodes_idx(ind))
+        # for ind in P:
+        #   vertex_cover_graph(GRAPH_INSTANCE, get_vertex_nodes_idx(ind))
 
     last_gen_diversity = 0
     same_diversity_cnt = 0
