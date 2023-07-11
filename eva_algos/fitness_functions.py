@@ -21,6 +21,14 @@ def mvc_optimal_fitness(ind, population):
     return fitness
 
 
+def node_overlap(ind1, ind2):
+    # not a good idea:
+    # tends to set every individual to list of 0s
+    VC_set_1 = set(i for i, x in enumerate(ind1) if x == 1)
+    VC_set_2 = set(i for i, x in enumerate(ind2) if x == 1)
+    return len(VC_set_1 & VC_set_2)
+
+
 def hamming_distance(ind1, ind2):
     """
     Calculates the hamming distance between two individuals
