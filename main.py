@@ -7,7 +7,7 @@ from mvc_solver import ilp_solve_mvc
 
 
 def ea_experiment():
-    P, best_ind, best_found_vc, min_vc = mu_plus_one_ea()
+    P, best_ind, best_found_vc, min_vc = mu_plus_one_ea(early_stop=True)
     print("Diverse population: ", end="")
     print(P)
     print("Best individual: ", end="")
