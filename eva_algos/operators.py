@@ -26,6 +26,7 @@ def multi_node_swap(parent, adjacency_matrix):
     :param parent: binary list
     :param adjacency_matrix: adjacency matrix of the graph
     :return: mutated offspring that is a valid solution
+    WARNING: probably it does not work well with alpha=0 in the constrained case
     """
 
     # create a copy of the parent that will be mutated
