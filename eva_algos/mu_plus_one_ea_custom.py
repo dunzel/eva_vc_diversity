@@ -14,7 +14,7 @@ def mu_plus_one_ea():
     """
     min_vc = ilp_solve_mvc(GRAPH_INSTANCE)
     OPT = C(min_vc) if CONSTRAINED else np.Inf
-    P = POPULATION_GENERATOR(MU, NUM_GENES, ALPHA)
+    P = POPULATION_GENERATOR(MU, NUM_GENES, ALPHA, OPT)
 
     for i in range(NUM_GENERATIONS):
         # Choose a random individual from the population and mutate it
