@@ -88,11 +88,11 @@ def generator_test_samples(ns, deltas):
         for delta in deltas:
             adjacency_matrix = generate_graph(n, delta)
             resulting_delta = round(calculate_delta(adjacency_matrix), 2)
-            filename = "./instances" + str(n) + "_" + str(delta) + "_" + str(resulting_delta) + ".txt"
+            filename = "./instances/" + str(n) + "_" + str(delta) + "_" + str(resulting_delta) + ".txt"
             save_instance(adjacency_matrix, filename)
 
 
 # will only be executed if this file is run directly
 if __name__ == "__main__":
-    generator_test_samples([100], [0.02, 0.05])
+    generator_test_samples([2], [0])
 
