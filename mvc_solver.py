@@ -1,5 +1,7 @@
 from gurobipy import *
 
+from eva_algos.operators import get_graph_representation
+
 
 def ilp_solve_mvc(adjacency_matrix):
     """
@@ -9,14 +11,7 @@ def ilp_solve_mvc(adjacency_matrix):
     """
 
     # Convert adjacency matrix to graph
-    V = list(range(len(adjacency_matrix)))
-    E = []
-
-    # Consider that the graph is undirected, so we only need to consider the upper triangle
-    for i in range(len(V)):
-        for j in range(i + 1, len(V)):
-            if adjacency_matrix[i][j]:
-                E.append((i, j))
+    V, E = get_graph_representation(adjacency_matrix)
 
     model = Model("MVC")
     model.modelSense = GRB.MINIMIZE
@@ -39,4 +34,10 @@ def ilp_solve_mvc(adjacency_matrix):
     model.optimize()
 
     # Return the solution as a list of vertex indices
-    return [v for v in V if x[v].x == 1]
+    vertex_cover_idx = [v for v in V if x[v].x == 1]
+    print("Vertex cover found by the ILP solver:")
+    print(vertex_cover_idx)
+    print("Number of vertices in the vertex cover:")
+    print(len(vertex_cover_idx))
+
+    return vertex_cover_idx

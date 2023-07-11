@@ -6,20 +6,31 @@
 # adjacency_matrix is the adjacency matrix of the graph
 # mvc_ind is the minimum vertex cover as an individual
 # The function needs to return a list of lists of 0s and 1s
+from eva_algos.operators import repair_ind, C
+
 
 def random_pop(mu, n, alpha, OPT, adjacency_matrix, mvc_ind):
-    # ToDo: random population
+    # random population
     # Also consider the fact: 1 Initialise the population 𝑃 with 𝜇 spanning trees such that
     # 𝑐(𝑇) ≤ (1 + 𝛼) · OPT for all 𝑇 ∈ 𝑃.
     pass
 
 
-# ToDo: seeded population
 def heuristic_pop(mu, n, alpha, OPT, adjacency_matrix, mvc_ind):
     """
-    Uses two heuristics to create a population of mu individuals with n genes
+    Uses probabilistic 2-opt heuristic
     """
-    pass
+    P = []
+    for _ in range(mu):
+        zero_ind = [0] * n
+        repaired_ind = repair_ind(zero_ind, adjacency_matrix)
+
+        assert C(repaired_ind) <= (1 + alpha) * OPT
+
+        P.append(repaired_ind)
+
+    return P
+
 
 
 def all_mvc_pop(mu, n, alpha, OPT, adjacency_matrix, mvc_ind):
@@ -34,8 +45,8 @@ def all_ones_pop(mu, n, alpha, OPT, adjacency_matrix, mvc_ind):
     Creates a population of mu individuals with n genes, all set to 1
     WARNING: usage of this initial population generator is not recommended with the usage of CONSTRAINED = True
     """
-    pop = []
+    P = []
     for i in range(mu):
-        pop.append([1] * n)
+        P.append([1] * n)
 
-    return pop
+    return P

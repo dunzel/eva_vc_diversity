@@ -33,6 +33,48 @@ def is_vertex_cover(adjacency_matrix, vertex_cover):
     return True
 
 
+def gen_ran_ind(n):
+    """
+    Generates a random individual of length n
+    """
+    return [random.randint(0, 1) for _ in range(n)]
+
+
+def get_graph_representation(adjacency_matrix):
+    """
+    Returns the graph representation of the adjacency matrix
+    :param adjacency_matrix:
+    :return: Graph representation (V, E)
+    """
+    V = list(range(len(adjacency_matrix)))
+    E = []
+
+    # Consider that the graph is undirected, so we only need to consider the upper triangle
+    for i in range(len(V)):
+        for j in range(i + 1, len(V)):
+            if adjacency_matrix[i][j]:
+                E.append((i, j))
+
+    return V, E
+
+
+def repair_ind(ind, adjacency_matrix):
+    """
+    Repairs an individual that is not a valid solution
+    """
+    V, E = get_graph_representation(adjacency_matrix)
+
+    for e in E:
+        if ind[e[0]] == 0 and ind[e[1]] == 0:
+            ind[random.choice(e)] = 1
+
+    assert is_vertex_cover(adjacency_matrix, ind)
+
+    return ind
+
+
+
+
 #########################################
 # Mutation operators for single parents #
 #########################################
