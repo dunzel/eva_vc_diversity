@@ -45,7 +45,7 @@ def brute_force_diversity_counter(adjacency_matrix, max_vc_len, ignore_isolated_
 
 
 if __name__ == "__main__":
-    EA_FOUND = [[1, 0, 0, 1, 1, 1, 0, 1, 0, 1], [1, 1, 0, 1, 1, 1, 0, 0, 0, 1], [1, 1, 0, 1, 1, 0, 0, 1, 0, 1], [1, 1, 0, 1, 1, 1, 0, 0, 1, 0], [1, 0, 0, 1, 1, 0, 0, 1, 1, 1], [1, 0, 0, 1, 1, 1, 0, 1, 0, 1], [1, 0, 0, 1, 1, 1, 0, 0, 1, 0], [1, 1, 0, 1, 1, 1, 0, 1, 0, 0], [1, 1, 0, 1, 1, 0, 0, 1, 0, 0], [1, 1, 0, 1, 1, 0, 0, 1, 0, 1], [1, 1, 0, 1, 1, 0, 0, 0, 1, 0], [1, 0, 0, 1, 1, 1, 0, 1, 1, 0], [1, 1, 0, 1, 1, 1, 0, 0, 0, 1], [1, 1, 0, 1, 1, 0, 0, 0, 0, 1], [1, 1, 0, 1, 1, 1, 0, 1, 0, 0], [1, 1, 0, 1, 0, 0, 0, 0, 1, 1], [1, 0, 0, 1, 1, 1, 0, 1, 0, 0], [0, 1, 0, 0, 0, 1, 0, 1, 1, 1], [1, 0, 0, 1, 1, 1, 0, 0, 0, 0], [1, 1, 0, 1, 1, 0, 0, 0, 0, 1], [1, 1, 0, 1, 1, 0, 0, 1, 0, 0], [1, 1, 0, 1, 1, 0, 0, 1, 1, 0], [1, 1, 0, 1, 1, 1, 0, 0, 0, 0], [1, 0, 0, 1, 1, 1, 0, 0, 1, 1], [1, 1, 0, 1, 1, 0, 0, 0, 0, 0], [1, 0, 0, 1, 1, 1, 0, 0, 0, 1], [0, 1, 0, 0, 1, 1, 0, 1, 1, 1], [1, 0, 0, 1, 1, 0, 0, 0, 1, 0], [1, 0, 0, 1, 1, 0, 0, 1, 0, 1], [1, 1, 0, 1, 0, 1, 0, 0, 1, 1], [1, 1, 0, 0, 1, 1, 0, 1, 0, 1], [1, 1, 0, 0, 0, 1, 0, 1, 0, 1], [1, 0, 0, 0, 1, 1, 0, 1, 0, 1], [1, 0, 0, 1, 1, 1, 0, 0, 0, 1], [1, 1, 0, 1, 0, 1, 0, 0, 0, 1], [0, 1, 0, 1, 0, 1, 0, 1, 1, 1], [1, 1, 0, 1, 1, 1, 0, 0, 0, 0], [1, 0, 0, 1, 1, 0, 0, 0, 0, 1], [1, 0, 0, 1, 1, 0, 0, 1, 0, 1], [1, 1, 0, 0, 0, 1, 0, 1, 1, 1], [1, 1, 0, 1, 0, 0, 0, 0, 0, 1], [0, 1, 0, 1, 1, 1, 0, 1, 1, 0], [1, 1, 0, 1, 0, 0, 0, 1, 0, 1], [1, 0, 0, 1, 1, 0, 0, 1, 0, 0], [1, 1, 0, 1, 0, 0, 0, 1, 1, 1], [1, 0, 0, 1, 1, 0, 0, 0, 1, 1], [1, 0, 0, 1, 1, 0, 0, 0, 0, 0], [1, 1, 0, 1, 0, 1, 0, 1, 0, 1], [1, 0, 0, 1, 1, 0, 0, 1, 1, 0], [1, 0, 0, 0, 1, 1, 0, 1, 1, 1]]
+    EA_FOUND = None
     MAX_VC = 6
     IGNORE_ISOLATED_NODES = True
     BRUTE_FORCE_FOUND = brute_force_diversity_counter(GRAPH_INSTANCE, MAX_VC, IGNORE_ISOLATED_NODES)
@@ -53,8 +53,9 @@ if __name__ == "__main__":
     print(f"Number of different vertex covers of length {MAX_VC} or less: "
           f"{len(BRUTE_FORCE_FOUND)}")
 
-    print("Vertex covers found by the brute force algorithm but not by the EA:")
-    for vc in BRUTE_FORCE_FOUND:
-        if vc not in EA_FOUND:
-            print(vc)
-            vertex_cover_graph(GRAPH_INSTANCE, get_vertex_nodes_idx(vc))
+    if EA_FOUND is not None:
+        print("Vertex covers found by the brute force algorithm but not by the EA:")
+        for vc in BRUTE_FORCE_FOUND:
+            if vc not in EA_FOUND:
+                print(vc)
+                vertex_cover_graph(GRAPH_INSTANCE, get_vertex_nodes_idx(vc))
