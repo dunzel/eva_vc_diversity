@@ -21,6 +21,18 @@ def get_ind_from_vertex_nodes_idx(vertex_nodes_idx, n):
     return ind
 
 
+def is_vertex_cover(adjacency_matrix, vertex_cover):
+    """
+    Returns True if vertex_cover is a vertex cover of adjacency_matrix
+    """
+    for i in range(len(adjacency_matrix)):
+        for j in range(len(adjacency_matrix)):
+            if adjacency_matrix[i][j] == 1 and vertex_cover[i] == 0 and vertex_cover[j] == 0:
+                return False
+
+    return True
+
+
 #########################################
 # Mutation operators for single parents #
 #########################################

@@ -2,21 +2,9 @@ import itertools
 
 import numpy as np
 
-from eva_algos.operators import get_vertex_nodes_idx
+from eva_algos.operators import get_vertex_nodes_idx, is_vertex_cover
 from instances.instance_renderer import vertex_cover_graph
 from settings import GRAPH_INSTANCE
-
-
-def is_vertex_cover(adjacency_matrix, vertex_cover):
-    """
-    Returns True if vertex_cover is a vertex cover of adjacency_matrix
-    """
-    for i in range(len(adjacency_matrix)):
-        for j in range(len(adjacency_matrix)):
-            if adjacency_matrix[i][j] == 1 and vertex_cover[i] == 0 and vertex_cover[j] == 0:
-                return False
-
-    return True
 
 
 def brute_force_diversity_counter(adjacency_matrix, max_vc_len, ignore_isolated_nodes):
