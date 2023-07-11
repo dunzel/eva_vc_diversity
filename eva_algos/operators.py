@@ -13,6 +13,14 @@ def C(ind):
 def get_vertex_nodes_idx(ind):
     return [i for i, x in enumerate(ind) if x == 1]
 
+
+def get_ind_from_vertex_nodes_idx(vertex_nodes_idx, n):
+    ind = [0] * n
+    for i in vertex_nodes_idx:
+        ind[i] = 1
+    return ind
+
+
 #########################################
 # Mutation operators for single parents #
 #########################################

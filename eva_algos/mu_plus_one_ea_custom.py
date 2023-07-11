@@ -1,7 +1,7 @@
 import random
 import numpy as np
 
-from eva_algos.operators import get_vertex_nodes_idx, C
+from eva_algos.operators import get_vertex_nodes_idx, C, get_ind_from_vertex_nodes_idx
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
     FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED
 from mvc_solver import ilp_solve_mvc
@@ -13,8 +13,9 @@ def mu_plus_one_ea():
     :return: the diverse population, the so far best individual, the so far best vertex cover, the minimum vertex cover
     """
     min_vc = ilp_solve_mvc(GRAPH_INSTANCE)
+    min_vc_ind = get_ind_from_vertex_nodes_idx(min_vc, NUM_GENES)
     OPT = C(min_vc) if CONSTRAINED else np.Inf
-    P = POPULATION_GENERATOR(MU, NUM_GENES, ALPHA, OPT)
+    P = POPULATION_GENERATOR(MU, NUM_GENES, ALPHA, OPT, GRAPH_INSTANCE, min_vc_ind)
 
     for i in range(NUM_GENERATIONS):
         # Choose a random individual from the population and mutate it
