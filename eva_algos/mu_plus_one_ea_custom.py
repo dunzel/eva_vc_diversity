@@ -14,7 +14,7 @@ def mu_plus_one_ea():
     """
     min_vc = ilp_solve_mvc(GRAPH_INSTANCE)
     min_vc_ind = get_ind_from_vertex_nodes_idx(min_vc, NUM_GENES)
-    OPT = C(min_vc) if CONSTRAINED else np.Inf
+    OPT = C(min_vc_ind) if CONSTRAINED else np.Inf
     P = POPULATION_GENERATOR(MU, NUM_GENES, ALPHA, OPT, GRAPH_INSTANCE, min_vc_ind)
     last_gen_diversity = 0
     same_diversity_cnt = 0
