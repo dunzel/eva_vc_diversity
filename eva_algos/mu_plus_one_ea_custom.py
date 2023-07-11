@@ -3,7 +3,7 @@ import numpy as np
 
 from eva_algos.operators import get_vertex_nodes_idx, C, get_ind_from_vertex_nodes_idx
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
-    FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED
+    FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED, EARLY_DIVERSE_STOP_CNT
 from mvc_solver import ilp_solve_mvc
 
 
@@ -16,6 +16,8 @@ def mu_plus_one_ea():
     min_vc_ind = get_ind_from_vertex_nodes_idx(min_vc, NUM_GENES)
     OPT = C(min_vc) if CONSTRAINED else np.Inf
     P = POPULATION_GENERATOR(MU, NUM_GENES, ALPHA, OPT, GRAPH_INSTANCE, min_vc_ind)
+    last_gen_diversity = 0
+    same_diversity_cnt = 0
 
     for i in range(NUM_GENERATIONS):
         # Choose a random individual from the population and mutate it
@@ -32,14 +34,28 @@ def mu_plus_one_ea():
             worst_ind = min(P, key=lambda ind: FITNESS_FX(ind, P))
             P.remove(worst_ind)
 
-        # Early stopping
+        # Check diversity
+        different_ind_cnt = len(set(tuple(ind) for ind in P))
+
+        # Early stopping if maximum diversity is reached
         if EARLY_DIVERSE_STOP:
             # stops if all individuals in the population are different
             # counts the number of unique individuals in the population
-            different_ind_cnt = len(set(tuple(ind) for ind in P))
             print(f"Generation {i}: {different_ind_cnt} unique individuals")
             if different_ind_cnt == len(P):
-                print(f"Early stopped!")
+                print(f"Early stopped reason: max diversity reached")
+                break
+
+        # Early stopping if no improvement in diversity for EARLY_DIVERSE_STOP_CNT generations
+        if EARLY_DIVERSE_STOP_CNT > 0:
+            if different_ind_cnt > last_gen_diversity:
+                last_gen_diversity = different_ind_cnt
+                same_diversity_cnt = 0
+            else:
+                same_diversity_cnt += 1
+
+            if same_diversity_cnt == EARLY_DIVERSE_STOP_CNT:
+                print(f"Early stopped reason: no improvement in diversity for {EARLY_DIVERSE_STOP_CNT} generations")
                 break
 
     print(f"Finished after {i} generations")
