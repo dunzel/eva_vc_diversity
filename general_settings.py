@@ -11,3 +11,4 @@ POPULATION_GENERATOR = all_ones_pop
 MUTATION_FX = multi_node_swap
 FITNESS_FX = mvc_hamming_diversity
 ALPHA = 0
+RANDOM_SEED = 42

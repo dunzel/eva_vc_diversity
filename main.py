@@ -1,5 +1,7 @@
+import random
+
 from eva_algos.mu_plus_one_ea_custom import mu_plus_one_ea
-from general_settings import GRAPH_INSTANCE
+from general_settings import GRAPH_INSTANCE, RANDOM_SEED
 from instances.instance_renderer import vertex_cover_graph
 from mvc_solver import ilp_solve_mvc
 
@@ -21,4 +23,7 @@ def ilp_experiment():
 
 
 if __name__ == "__main__":
+    # set the random seed
+    random.seed(RANDOM_SEED)
+
     ea_experiment()
