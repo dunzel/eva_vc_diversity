@@ -6,12 +6,12 @@ from eva_algos.operators import multi_node_swap
 #####################
 # Change these only #
 #####################
-GRAPH_INSTANCE = load_instance("instances/10_0_0.0.txt")
+GRAPH_INSTANCE = load_instance("instances/5_0_0.0.txt")
 
-MU = 1024
+MU = 32
 NUM_GENERATIONS = 5000
 EARLY_DIVERSE_STOP = True   # if True, the algorithm will stop if all individuals in the population are different
-CONSTRAINED = True          # if True, the algorithm is constrained and will use OPT as an upper bound
+CONSTRAINED = False          # if True, the algorithm is constrained and will use OPT as an upper bound
 ALPHA = 0
 RANDOM_SEED = 42
 
