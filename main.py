@@ -1,13 +1,13 @@
 import random
 
 from eva_algos.mu_plus_one_ea_custom import mu_plus_one_ea
-from general_settings import GRAPH_INSTANCE, RANDOM_SEED
+from settings import GRAPH_INSTANCE, RANDOM_SEED
 from instances.instance_renderer import vertex_cover_graph
 from mvc_solver import ilp_solve_mvc
 
 
 def ea_experiment():
-    P, best_ind, best_found_vc, min_vc = mu_plus_one_ea(early_stop=True)
+    P, best_ind, best_found_vc, min_vc = mu_plus_one_ea()
     print("Diverse population: ", end="")
     print(P)
     print("Best individual: ", end="")

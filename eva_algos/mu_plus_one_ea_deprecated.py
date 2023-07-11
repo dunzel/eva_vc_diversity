@@ -1,4 +1,4 @@
-from general_settings import \
+from settings import \
     NUM_GENERATIONS, POPULATION_GENERATOR, MU, NUM_GENES, MUTATION_FX, FITNESS_FX
 from pygad import pygad
 

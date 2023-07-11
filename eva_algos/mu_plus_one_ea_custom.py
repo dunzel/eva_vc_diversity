@@ -2,20 +2,18 @@ import random
 import numpy as np
 
 from eva_algos.operators import get_vertex_nodes_idx, C
-from general_settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
-    FITNESS_FX, MUTATION_FX, NUM_GENES
+from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
+    FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED
 from mvc_solver import ilp_solve_mvc
 
 
-def mu_plus_one_ea(early_stop=False, constrained=False):
+def mu_plus_one_ea():
     """
     Diversity maximising (𝜇 + 1)-EA
-    :param early_stop: if True, the algorithm will stop if all individuals in the population are different
-    :param constrained: if True, the algorithm is constrained and will use OPT as an upper bound
     :return: the diverse population, the so far best individual, the so far best vertex cover, the minimum vertex cover
     """
     min_vc = ilp_solve_mvc(GRAPH_INSTANCE)
-    OPT = C(min_vc) if constrained else np.Inf
+    OPT = C(min_vc) if CONSTRAINED else np.Inf
     P = POPULATION_GENERATOR(MU, NUM_GENES, ALPHA)
 
     for i in range(NUM_GENERATIONS):
@@ -34,7 +32,7 @@ def mu_plus_one_ea(early_stop=False, constrained=False):
             P.remove(worst_ind)
 
         # Early stopping
-        if early_stop:
+        if EARLY_DIVERSE_STOP:
             # stops if all individuals in the population are different
             # counts the number of unique individuals in the population
             print(len(set(tuple(ind) for ind in P)))
