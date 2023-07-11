@@ -36,10 +36,13 @@ def mu_plus_one_ea():
         if EARLY_DIVERSE_STOP:
             # stops if all individuals in the population are different
             # counts the number of unique individuals in the population
-            print(len(set(tuple(ind) for ind in P)))
-            if len(set(tuple(ind) for ind in P)) == len(P):
-                print(f"Early stopping at generation: {i}")
+            different_ind_cnt = len(set(tuple(ind) for ind in P))
+            print(f"Generation {i}: {different_ind_cnt} unique individuals")
+            if different_ind_cnt == len(P):
+                print(f"Early stopped!")
                 break
+
+    print(f"Finished after {i} generations")
 
     best_ind = max(P, key=lambda ind: FITNESS_FX(ind, P))  # only useful for minimum vertex cover search
     best_found_vc = get_vertex_nodes_idx(best_ind)
