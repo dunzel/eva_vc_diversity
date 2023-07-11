@@ -1,4 +1,4 @@
-from eva_algos.fitness_functions import mvc_optimal_fitness, mvc_hamming_diversity
+from eva_algos.fitness_functions import mvc_hamming_diversity
 from eva_algos.initial_population import all_ones_pop
 from instances.instance_generator import load_instance
 from eva_algos.operators import multi_node_swap
