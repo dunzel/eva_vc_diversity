@@ -80,6 +80,7 @@ def vertex_cover_graph(adjacency_matrix, vertex_cover):
 
 
 if __name__ == "__main__":
+    # will only be executed if this file is run directly
     # Testing the renderer methods
     from instance_generator import load_instance
     from mvc_solver import ilp_solve_mvc
