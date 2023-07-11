@@ -64,6 +64,9 @@ def repair_ind(ind, adjacency_matrix):
     """
     V, E = get_graph_representation(adjacency_matrix)
 
+    # shuffle the edges
+    random.shuffle(E)
+
     for e in E:
         if ind[e[0]] == 0 and ind[e[1]] == 0:
             ind[random.choice(e)] = 1

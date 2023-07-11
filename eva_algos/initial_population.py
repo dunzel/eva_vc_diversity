@@ -21,13 +21,14 @@ def heuristic_pop(mu, n, alpha, OPT, adjacency_matrix, mvc_ind):
     Uses probabilistic 2-opt heuristic
     """
     P = []
-    for _ in range(mu):
+    while len(P) < mu:
         zero_ind = [0] * n
         repaired_ind = repair_ind(zero_ind, adjacency_matrix)
 
-        assert C(repaired_ind) <= (1 + alpha) * OPT
+        if C(repaired_ind) <= (1 + alpha) * OPT:
+            P.append(repaired_ind)
 
-        P.append(repaired_ind)
+    assert len(P) == mu
 
     return P
 

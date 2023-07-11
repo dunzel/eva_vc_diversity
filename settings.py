@@ -6,7 +6,7 @@ from eva_algos.operators import multi_node_swap
 #####################
 # Change these only #
 #####################
-GRAPH_INSTANCE = load_instance("instances/5_0.2_0.2.txt")
+GRAPH_INSTANCE = load_instance("instances/100_special.txt")
 
 MU = 50
 NUM_GENERATIONS = 10000
