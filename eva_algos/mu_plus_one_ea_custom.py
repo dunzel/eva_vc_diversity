@@ -2,7 +2,6 @@ import random
 import numpy as np
 
 from eva_algos.operators import get_vertex_nodes_idx, C, get_ind_from_vertex_nodes_idx, get_unique_pop, count_unique_pop
-from instances.instance_renderer import vertex_cover_graph
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
     FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED, EARLY_DIVERSE_STOP_CNT, DEBUG, \
     NO_FIT_IMP_STOP_CNT, RANDOM_SEED
@@ -55,12 +54,12 @@ def mu_plus_one_ea():
 
         # Check diversity
         different_ind_cnt = len(set(tuple(ind) for ind in P))
+        print(f"Generation {i}: {different_ind_cnt} unique individuals")
 
         # Early stopping if maximum diversity is reached
         if EARLY_DIVERSE_STOP:
             # stops if all individuals in the population are different
             # counts the number of unique individuals in the population
-            print(f"Generation {i}: {different_ind_cnt} unique individuals")
             if different_ind_cnt == len(P):
                 print(f"Early stopped reason: max diversity reached")
                 break

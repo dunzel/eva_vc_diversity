@@ -7,10 +7,10 @@ from eva_algos.operators import multi_node_swap
 
 GRAPH_FILE_NAME = "instances/5_0_0.0.txt"
 GRAPH_INSTANCE = load_instance(GRAPH_FILE_NAME)
-NUM_GENES = len(GRAPH_INSTANCE) # Don't change this
+NUM_GENES = len(GRAPH_INSTANCE)  # Don't change this
 
 MU = 32
-NUM_GENERATIONS = MU * NUM_GENES**2
+NUM_GENERATIONS = MU * 2 * NUM_GENES
 EARLY_DIVERSE_STOP = False      # if True, the algorithm will stop if all individuals in the population are different
 EARLY_DIVERSE_STOP_CNT = 0      # if True, and the diversity has not increased for this many generations, the algorithm will stop
 NO_FIT_IMP_STOP_CNT = 100       # if True, and the fitness has not increased for this many generations, the algorithm will stop

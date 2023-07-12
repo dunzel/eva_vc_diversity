@@ -23,12 +23,13 @@ def ilp_experiment():
 
 
 if __name__ == "__main__":
-    # # set the random seed
-    # # # n, delta, mu, alpha
-    # n = [50, 100, 200, 400]
-    # delta = [2, 4, 8]
-    # mu = []
-    # alpha = []
-    # # ea_experiment("./results")
+    # set the random seed
+    # # n, delta, mu, alpha
+    n = [50, 100, 200, 400]
+    delta = [2, 4, 8]
+    mu = [2, 10, 25, 50]
+
+    # alpha = [0.05, 0.1, 0.5] # !!! set POPULATION_GENERATOR to heuristic !!!
+    # ea_experiment("./results")
 
     ea_experiment()
