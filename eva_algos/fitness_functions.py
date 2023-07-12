@@ -64,7 +64,13 @@ def mvc_hamming_diversity(ind, population):
     """
 
     # Copy the population and remove the individual from the population
-    population = [i for i in population if i != ind]
+    if ind is not None:
+        population = remove_first_instance(population.copy(), ind)
+
+        # make all ind in the pop unique:
+        population = set(tuple(i) for i in population)
+        population = [list(x) for x in population]
+
 
     # calculate the diversity of the remaining population
     diversity = 0
