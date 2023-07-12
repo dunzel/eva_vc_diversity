@@ -1,7 +1,7 @@
 import itertools
 import numpy as np
 
-from eva_algos.operators import get_vertex_nodes_idx, is_vertex_cover
+from eva_algos.utils import get_vertex_nodes_idx, is_vertex_cover
 from instances.instance_renderer import vertex_cover_graph
 from settings import GRAPH_INSTANCE
 

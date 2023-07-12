@@ -1,6 +1,6 @@
 from gurobipy import *
 
-from eva_algos.operators import get_graph_representation
+from eva_algos.utils import get_graph_representation
 
 
 def ilp_solve_mvc(adjacency_matrix):

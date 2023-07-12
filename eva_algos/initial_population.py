@@ -8,12 +8,14 @@
 # The function needs to return a list of lists of 0s and 1s
 import copy
 
-from eva_algos.operators import repair_ind, C
+from eva_algos.utils import C, repair_ind
 
 
 def heuristic_pop(mu, n, alpha, OPT, adjacency_matrix, mvc_ind):
     """
     Uses probabilistic 2-opt heuristic
+    In expectation, the resulting population is a 2-approximation of the optimal solution
+    So we can work with this when using the approximation factor up to alpha = 1
     """
     init_ind = None
     while True:
@@ -39,6 +41,7 @@ def all_ones_pop(mu, n, alpha, OPT, adjacency_matrix, mvc_ind):
     """
     Creates a population of mu individuals with n genes, all set to 1
     WARNING: usage of this initial population generator is not recommended with the usage of CONSTRAINED = True
+    The reason is that all offsprings after the mutation won't be in the allowed search space
     """
     P = []
     for i in range(mu):

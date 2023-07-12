@@ -1,12 +1,9 @@
-import numpy as np
-
-##############################
-# New fitness function ideas #
-##############################
-
 # function head needs to be: def fitness_func(ind, population):
 # ind is the individual for which the fitness is calculated
 # population is the whole population
+import numpy as np
+
+from eva_algos.utils import get_unique_pop
 
 
 def mvc_optimal_fitness(ind, population):
@@ -19,14 +16,6 @@ def mvc_optimal_fitness(ind, population):
     """
     fitness = len(ind) - np.sum(ind)
     return fitness
-
-
-def node_overlap(ind1, ind2):
-    # not a good idea:
-    # tends to set every individual to list of 0s
-    VC_set_1 = set(i for i, x in enumerate(ind1) if x == 1)
-    VC_set_2 = set(i for i, x in enumerate(ind2) if x == 1)
-    return len(VC_set_1 & VC_set_2)
 
 
 def hamming_distance(ind1, ind2):
@@ -68,8 +57,7 @@ def mvc_hamming_diversity(ind, population):
         population = remove_first_instance(population.copy(), ind)
 
     # make all ind in the pop unique:
-    population = set(tuple(i) for i in population)
-    population = [list(x) for x in population]
+    population = get_unique_pop(population)
 
 
     # calculate the diversity of the remaining population
@@ -80,6 +68,19 @@ def mvc_hamming_diversity(ind, population):
                 diversity += hamming_distance(i, j)
 
     return diversity
+
+
+#########################
+# Bad fitness functions #
+#########################
+
+
+def node_overlap(ind1, ind2):
+    # not a good idea:
+    # tends to set every individual to list of 0s
+    VC_set_1 = set(i for i, x in enumerate(ind1) if x == 1)
+    VC_set_2 = set(i for i, x in enumerate(ind2) if x == 1)
+    return len(VC_set_1 & VC_set_2)
 
 
 def mvc_hamming_diversity_cmp(ind, population):

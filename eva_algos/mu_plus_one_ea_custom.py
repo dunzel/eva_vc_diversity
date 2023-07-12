@@ -1,9 +1,9 @@
 import random
 import numpy as np
 
-from eva_algos.operators import get_vertex_nodes_idx, C, get_ind_from_vertex_nodes_idx, get_unique_pop, count_unique_pop
+from eva_algos.utils import C, get_vertex_nodes_idx, get_ind_from_vertex_nodes_idx, count_unique_pop
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
-    FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED, EARLY_DIVERSE_STOP_CNT, DEBUG, \
+    FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED, EARLY_DIVERSE_STOP_CNT, \
     NO_FIT_IMP_STOP_CNT, RANDOM_SEED
 from misc.mvc_solver import ilp_solve_mvc
 
@@ -15,24 +15,17 @@ def mu_plus_one_ea():
     """
     random.seed(RANDOM_SEED)
 
+    # Calculate the minimum vertex cover
     min_vc = ilp_solve_mvc(GRAPH_INSTANCE)
     min_vc_ind = get_ind_from_vertex_nodes_idx(min_vc, NUM_GENES)
     OPT = C(min_vc_ind) if CONSTRAINED else np.Inf
+
+    # Initialise population with 𝜇 individuals of a same random or heuristic individual
     P = POPULATION_GENERATOR(MU, NUM_GENES, ALPHA, OPT, GRAPH_INSTANCE, min_vc_ind)
 
-    if DEBUG:
-        P = get_unique_pop(P)
-        print("Heuristic population found {} individuals".format(len(P)))
-        # for ind in P:
-        #   vertex_cover_graph(GRAPH_INSTANCE, get_vertex_nodes_idx(ind))
+    # Early stopping variables and iteration counter
+    last_gen_diversity = same_diversity_cnt = last_gen_fitness = same_fitness_cnt = i = 0
 
-    last_gen_diversity = 0
-    same_diversity_cnt = 0
-
-    last_gen_fitness = 0
-    same_fitness_cnt = 0
-
-    i = 0
     for i in range(NUM_GENERATIONS):
         # Choose a random individual from the population and mutate it
         T = random.choice(P)
@@ -43,14 +36,17 @@ def mu_plus_one_ea():
             P.append(T_m)
 
         # Remove the individual with the lowest fitness from the population
-        # e.g. the lowest contribution to diversity
+        # i.e. the ind with the lowest contribution to diversity
         if len(P) == MU + 1:
             ind_fit_fx = lambda ind: FITNESS_FX(ind, P)
-            # worst_fit = max(map(ind_fit, P))
             worst_ind = max(P, key=ind_fit_fx)
             P.remove(worst_ind)
 
         assert len(P) == MU
+
+        #################################################################
+        # The following sections are not part of the original algorithm #
+        #################################################################
 
         # Check diversity
         different_ind_cnt = len(set(tuple(ind) for ind in P))
