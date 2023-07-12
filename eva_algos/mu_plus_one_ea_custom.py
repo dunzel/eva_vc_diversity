@@ -5,7 +5,7 @@ from eva_algos.operators import get_vertex_nodes_idx, C, get_ind_from_vertex_nod
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
     FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED, EARLY_DIVERSE_STOP_CNT, DEBUG, \
     NO_FIT_IMP_STOP_CNT, RANDOM_SEED
-from mvc_solver import ilp_solve_mvc
+from misc.mvc_solver import ilp_solve_mvc
 
 
 def mu_plus_one_ea():

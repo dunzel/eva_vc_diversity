@@ -83,7 +83,7 @@ if __name__ == "__main__":
     # will only be executed if this file is run directly
     # Testing the renderer methods
     from instance_generator import load_instance
-    from mvc_solver import ilp_solve_mvc
+    from misc.mvc_solver import ilp_solve_mvc
 
     loaded_adjacency_matrix = load_instance("5_0.2_0.2.txt")
     plain_graph(loaded_adjacency_matrix)

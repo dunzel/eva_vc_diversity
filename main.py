@@ -1,9 +1,7 @@
-import random
-
 from eva_algos.mu_plus_one_ea_custom import mu_plus_one_ea
-from settings import GRAPH_INSTANCE, RANDOM_SEED
+from settings import GRAPH_INSTANCE
 from instances.instance_renderer import vertex_cover_graph
-from mvc_solver import ilp_solve_mvc
+from misc.mvc_solver import ilp_solve_mvc
 
 
 def ea_experiment():

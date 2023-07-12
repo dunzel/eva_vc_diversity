@@ -1,33 +1,46 @@
+import math
 import re
 
-from eva_algos.fitness_functions import mvc_hamming_diversity, mvc_hamming_diversity_cmp
-from eva_algos.initial_population import all_ones_pop, all_mvc_pop, heuristic_pop
+from eva_algos.fitness_functions import mvc_hamming_diversity
+from eva_algos.initial_population import all_ones_pop, heuristic_pop
 from instances.instance_generator import load_instance
 from eva_algos.operators import multi_node_swap
 
-GRAPH_FILE_NAME = "instances/100_8.txt"
-GRAPH_INSTANCE = load_instance(GRAPH_FILE_NAME)
-NUM_GENES = len(GRAPH_INSTANCE)  # Don't change this
+######################################
+# settings for an experiment #
+######################################
 
-MU = 2
-NUM_GENERATIONS = MU * 2 * NUM_GENES
-EARLY_DIVERSE_STOP = False      # if True, the algorithm will stop if all individuals in the population are different
-EARLY_DIVERSE_STOP_CNT = 0      # if True, and the diversity has not increased for this many generations, the algorithm will stop
-NO_FIT_IMP_STOP_CNT = 100       # if True, and the fitness has not increased for this many generations, the algorithm will stop
-CONSTRAINED = False             # if True, the algorithm is constrained and will use OPT as an upper bound
+### main settings ###
+GRAPH_FILE_NAME = "instances/unconstrained/400_2.txt"
+MU = 50
 ALPHA = 0.05
-RANDOM_SEED = 42
-DEBUG = False
-LOGGING = False
+CONSTRAINED = False             # if True, the algorithm is constrained and will use (1+alpha) * OPT as an upper bound
 
-# Callbacks
-POPULATION_GENERATOR = all_ones_pop
+### fixed settings ###
+GRAPH_INSTANCE = load_instance(GRAPH_FILE_NAME)     # Don't change this
+NUM_GENES = len(GRAPH_INSTANCE)                     # Don't change this
+NUM_GENERATIONS = MU * 2 * NUM_GENES                # Don't change this
+
+### early stopping settings ###
+EARLY_DIVERSE_STOP = False                          # stop, if all individuals in the population are different
+EARLY_DIVERSE_STOP_CNT = 0                          # stop, if diversity hasn't increased for this many generations
+NO_FIT_IMP_STOP_CNT = math.sqrt(NUM_GENERATIONS)    # stop, if fitness has not increased for this many generations
+
+### callbacks/function settings ###
+POPULATION_GENERATOR = all_ones_pop if not CONSTRAINED else heuristic_pop
 MUTATION_FX = multi_node_swap
 FITNESS_FX = mvc_hamming_diversity
 
-#######################################
-# creating dict for preserve settings #
-#######################################
+### message settings ###
+DEBUG = False
+LOGGING = False
+
+### misc settings ###
+RANDOM_SEED = 42
+
+######################################
+# creating dict for logging settings #
+######################################
 
 EXPECTED_DELTA_match = re.search(r"_([0-9\.]+)_", GRAPH_FILE_NAME)
 if EXPECTED_DELTA_match:
