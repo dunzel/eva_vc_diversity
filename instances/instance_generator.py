@@ -74,7 +74,7 @@ def calculate_delta(adjacency_matrix):
                     edges += 1
 
     # divide by the amount of nodes
-    return edges / n
+    return (2 * edges) / n
 
 
 def generator_test_samples(ns, deltas):
