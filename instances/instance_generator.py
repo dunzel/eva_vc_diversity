@@ -73,8 +73,8 @@ def calculate_delta(adjacency_matrix):
                 if adjacency_matrix[i][j] == 1:
                     edges += 1
 
-    # divide by the amount of possible edges in an undirected graph without self-loops
-    return edges / ((n * (n - 1)) / 2)
+    # divide by the amount of nodes
+    return edges / n
 
 
 def generator_test_samples(ns, deltas):
