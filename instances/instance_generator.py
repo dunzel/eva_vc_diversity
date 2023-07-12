@@ -17,6 +17,20 @@ def generate_graph(n, delta):
                         adjacency_matrix[i][j] = 1
                         adjacency_matrix[j][i] = 1
 
+    while calculate_delta(adjacency_matrix) < delta:
+        i = np.random.randint(0, n)
+        j = np.random.randint(0, n)
+        if i != j:
+            adjacency_matrix[i][j] = 1
+            adjacency_matrix[j][i] = 1
+
+    while calculate_delta(adjacency_matrix) > delta:
+        i = np.random.randint(0, n)
+        j = np.random.randint(0, n)
+        if i != j:
+            adjacency_matrix[i][j] = 0
+            adjacency_matrix[j][i] = 0
+
     return adjacency_matrix
 
 
@@ -87,8 +101,7 @@ def generator_test_samples(ns, deltas):
     for n in ns:
         for delta in deltas:
             adjacency_matrix = generate_graph(n, delta)
-            resulting_delta = round(calculate_delta(adjacency_matrix), 2)
-            filename = "../instances/" + str(n) + "_" + str(delta) + "_" + str(resulting_delta) + ".txt"
+            filename = "./instances/" + str(n) + "_" + str(delta) + ".txt"
             save_instance(adjacency_matrix, filename)
 
 
