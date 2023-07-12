@@ -5,21 +5,22 @@ from eva_algos.initial_population import all_ones_pop, all_mvc_pop, heuristic_po
 from instances.instance_generator import load_instance
 from eva_algos.operators import multi_node_swap
 
-GRAPH_FILE_NAME = "instances/100_0.02_0.02.txt"
+GRAPH_FILE_NAME = "instances/5_0_0.0.txt"
 GRAPH_INSTANCE = load_instance(GRAPH_FILE_NAME)
 NUM_GENES = len(GRAPH_INSTANCE) # Don't change this
 
-MU = 50
-NUM_GENERATIONS = MU * NUM_GENES^2
-EARLY_DIVERSE_STOP = True       # if True, the algorithm will stop if all individuals in the population are different
-EARLY_DIVERSE_STOP_CNT = 1000   # if True, and the diversity has not increased for this many generations, the algorithm will stop
-CONSTRAINED = True              # if True, the algorithm is constrained and will use OPT as an upper bound
+MU = 32
+NUM_GENERATIONS = MU * NUM_GENES**2
+EARLY_DIVERSE_STOP = False      # if True, the algorithm will stop if all individuals in the population are different
+EARLY_DIVERSE_STOP_CNT = 0      # if True, and the diversity has not increased for this many generations, the algorithm will stop
+NO_FIT_IMP_STOP_CNT = 100       # if True, and the fitness has not increased for this many generations, the algorithm will stop
+CONSTRAINED = False              # if True, the algorithm is constrained and will use OPT as an upper bound
 ALPHA = 0.05
 RANDOM_SEED = 42
 DEBUG = False
 
 # Callbacks
-POPULATION_GENERATOR = heuristic_pop
+POPULATION_GENERATOR = all_ones_pop
 MUTATION_FX = multi_node_swap
 FITNESS_FX = mvc_hamming_diversity
 
@@ -49,6 +50,7 @@ SETTINGS_DICT = {
     "NUM_GENERATIONS": NUM_GENERATIONS,
     "EARLY_DIVERSE_STOP": EARLY_DIVERSE_STOP,
     "EARLY_DIVERSE_STOP_CNT": EARLY_DIVERSE_STOP_CNT,
+    "NO_FIT_IMP_STOP_CNT": NO_FIT_IMP_STOP_CNT,
     "CONSTRAINED": CONSTRAINED,
     "ALPHA": ALPHA,
     "RANDOM_SEED": RANDOM_SEED,

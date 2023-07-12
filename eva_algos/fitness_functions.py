@@ -39,6 +39,20 @@ def hamming_distance(ind1, ind2):
     return sum(el1 != el2 for el1, el2 in zip(ind1, ind2))
 
 
+def remove_first_instance(pop, ind):
+    """
+    Removes the first instance of ind from the population
+    :param pop:
+    :param ind:
+    :return: the population without the first instance of ind
+    """
+    try:
+        first_instance_index = next(i for i, x in enumerate(pop) if x == ind)
+        return pop[:first_instance_index] + pop[first_instance_index + 1:]
+    except StopIteration:
+        return pop
+
+
 def mvc_hamming_diversity(ind, population):
     """
     Calculates the hamming diversity of all pairs of individuals in the population without the individual ind

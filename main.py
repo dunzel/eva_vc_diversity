@@ -23,7 +23,12 @@ def ilp_experiment():
 
 
 if __name__ == "__main__":
-    # set the random seed
-    random.seed(RANDOM_SEED)
+    # # set the random seed
+    # # # n, delta, mu, alpha
+    # n = [50, 100, 200, 400]
+    # delta = [2, 4, 8]
+    # mu = []
+    # alpha = []
+    # # ea_experiment("./results")
 
     ea_experiment()

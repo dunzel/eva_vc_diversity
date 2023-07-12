@@ -1,10 +1,11 @@
 import random
 import numpy as np
 
-from eva_algos.operators import get_vertex_nodes_idx, C, get_ind_from_vertex_nodes_idx, get_unique_pop
+from eva_algos.operators import get_vertex_nodes_idx, C, get_ind_from_vertex_nodes_idx, get_unique_pop, count_unique_pop
 from instances.instance_renderer import vertex_cover_graph
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
-    FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED, EARLY_DIVERSE_STOP_CNT, DEBUG
+    FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED, EARLY_DIVERSE_STOP_CNT, DEBUG, \
+    NO_FIT_IMP_STOP_CNT, RANDOM_SEED
 from mvc_solver import ilp_solve_mvc
 
 
@@ -13,6 +14,8 @@ def mu_plus_one_ea():
     Diversity maximising (𝜇 + 1)-EA
     :return: the diverse population, the so far best individual, the so far best vertex cover, the minimum vertex cover
     """
+    random.seed(RANDOM_SEED)
+
     min_vc = ilp_solve_mvc(GRAPH_INSTANCE)
     min_vc_ind = get_ind_from_vertex_nodes_idx(min_vc, NUM_GENES)
     OPT = C(min_vc_ind) if CONSTRAINED else np.Inf
@@ -27,6 +30,10 @@ def mu_plus_one_ea():
     last_gen_diversity = 0
     same_diversity_cnt = 0
 
+    last_gen_fitness = 0
+    same_fitness_cnt = 0
+
+    i = 0
     for i in range(NUM_GENERATIONS):
         # Choose a random individual from the population and mutate it
         T = random.choice(P)
@@ -39,8 +46,12 @@ def mu_plus_one_ea():
         # Remove the individual with the lowest fitness from the population
         # e.g. the lowest contribution to diversity
         if len(P) == MU + 1:
-            worst_ind = min(P, key=lambda ind: FITNESS_FX(ind, P))
+            ind_fit_fx = lambda ind: FITNESS_FX(ind, P)
+            # worst_fit = max(map(ind_fit, P))
+            worst_ind = max(P, key=ind_fit_fx)
             P.remove(worst_ind)
+
+        assert len(P) == MU
 
         # Check diversity
         different_ind_cnt = len(set(tuple(ind) for ind in P))
@@ -66,7 +77,23 @@ def mu_plus_one_ea():
                 print(f"Early stopped reason: no improvement in diversity for {EARLY_DIVERSE_STOP_CNT} generations")
                 break
 
+        # Early stopping if no improvement in fitness for NO_FIT_IMP_STOP_CNT generations
+        if NO_FIT_IMP_STOP_CNT > 0:
+            curr_gen_fitness = FITNESS_FX(None, P)
+            print(f"Generation {i}: fitness {curr_gen_fitness}")
+            if curr_gen_fitness != last_gen_fitness:
+                last_gen_fitness = curr_gen_fitness
+                same_fitness_cnt = 0
+            else:
+                same_fitness_cnt += 1
+
+            if same_fitness_cnt == NO_FIT_IMP_STOP_CNT:
+                print(f"Early stopped reason: no improvement in fitness for {NO_FIT_IMP_STOP_CNT} generations")
+                break
+
     print(f"Finished after {i} generations")
+    print(f"Found {count_unique_pop(P)} different individuals")
+    print(f"The population has a fitness of {FITNESS_FX(None, P)}")
 
     best_ind = min(P, key=lambda ind: C(ind))  # only useful for minimum vertex cover search
     best_found_vc = get_vertex_nodes_idx(best_ind)
