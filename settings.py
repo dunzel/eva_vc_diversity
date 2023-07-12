@@ -11,8 +11,8 @@ from eva_algos.operators import multi_node_swap
 ######################################
 
 ### main settings ###
-GRAPH_FILE_NAME = "instances/unconstrained/400_2.txt"
-MU = 50
+GRAPH_FILE_NAME = "instances/special/5_4.txt"
+MU = 32
 ALPHA = 0.05
 CONSTRAINED = False             # if True, the algorithm is constrained and will use (1+alpha) * OPT as an upper bound
 
@@ -22,9 +22,9 @@ NUM_GENES = len(GRAPH_INSTANCE)                     # Don't change this
 NUM_GENERATIONS = MU * 2 * NUM_GENES                # Don't change this
 
 ### early stopping settings ###
-EARLY_DIVERSE_STOP = False                          # stop, if all individuals in the population are different
-EARLY_DIVERSE_STOP_CNT = 0                          # stop, if diversity hasn't increased for this many generations
-NO_FIT_IMP_STOP_CNT = math.sqrt(NUM_GENERATIONS)    # stop, if fitness has not increased for this many generations
+EARLY_DIVERSE_STOP = False                                 # stop, if all individuals in the population are different
+EARLY_DIVERSE_STOP_CNT = 0                                 # stop, if diversity hasn't increased this many generations
+NO_FIT_IMP_STOP_CNT = int(200 * (0.99826**NUM_GENES))      # stop, if fitness has not increased this many generations
 
 ### callbacks/function settings ###
 POPULATION_GENERATOR = all_ones_pop if not CONSTRAINED else heuristic_pop
