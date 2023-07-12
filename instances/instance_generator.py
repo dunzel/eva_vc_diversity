@@ -5,7 +5,7 @@ def generate_graph(n, delta):
     """
     Generates a random graph with n nodes and a (expected!) density of delta
     :param n: amount of nodes
-    :param delta: density of the graph where delta=1 is a complete graph and delta=0 is an isolated graph
+    :param delta: expected node degree where delta=n is a complete graph and delta=0 is an isolated graph
     :return:
     """
     adjacency_matrix = np.zeros((n, n))
@@ -13,7 +13,7 @@ def generate_graph(n, delta):
         for j in range(n):
             if i != j:
                 if i < j:
-                    if np.random.rand() < delta:
+                    if np.random.rand() < (delta/n):
                         adjacency_matrix[i][j] = 1
                         adjacency_matrix[j][i] = 1
 
