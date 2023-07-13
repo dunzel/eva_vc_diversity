@@ -13,9 +13,11 @@ def generate_graph(n, delta):
         for j in range(n):
             if i != j:
                 if i < j:
-                    if np.random.rand() < (delta/n):
+                    if np.random.rand() < (delta / n):
                         adjacency_matrix[i][j] = 1
                         adjacency_matrix[j][i] = 1
+            else:
+                adjacency_matrix[i][i] = np.random.randint(1, 1001)
 
     while calculate_delta(adjacency_matrix) < delta:
         i = np.random.randint(0, n)
@@ -48,7 +50,10 @@ def save_instance(adjacency_matrix, path):
         for i in range(len(adjacency_matrix)):
             for j in range(len(adjacency_matrix)):
                 if adjacency_matrix[i][j] == 1:
-                    file.write(str(i) + " " + str(j) + "\n")
+                    file.write(str(i) + " " + str(j) + " 0\n")
+                # For node weights:
+                if i == j:
+                    file.write(str(i) + " " + str(j) + " " + str(int(adjacency_matrix[i][i])) + "\n")
 
 
 def load_instance(path):
@@ -66,9 +71,12 @@ def load_instance(path):
 
         # read the edges from the file
         for line in file.readlines():
-            i, j = line.split()
-            adjacency_matrix[int(i)][int(j)] = 1
-            adjacency_matrix[int(j)][int(i)] = 1  # undirected graph!
+            i, j, k = line.split()
+            if i == j:
+                adjacency_matrix[int(i)][int(i)] = int(k)
+            else:
+                adjacency_matrix[int(i)][int(j)] = 1
+                adjacency_matrix[int(j)][int(i)] = 1  # undirected graph!
 
     return adjacency_matrix
 
@@ -101,11 +109,10 @@ def generator_test_samples(ns, deltas):
     for n in ns:
         for delta in deltas:
             adjacency_matrix = generate_graph(n, delta)
-            filename = "./instances/" + str(n) + "_" + str(delta) + ".txt"
+            filename = "../instances/" + str(n) + "_" + str(delta) + ".txt"
             save_instance(adjacency_matrix, filename)
 
 
 # will only be executed if this file is run directly
 if __name__ == "__main__":
     generator_test_samples([50, 100, 200, 400], [2, 4, 8])
-
