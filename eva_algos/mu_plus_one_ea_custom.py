@@ -191,6 +191,9 @@ def mu_plus_one_ea():
 
         # saving the population to file
         with open(log_dir + "population.txt", "w") as f:
+            # order the population by its decimal representation
+            decimal_repr = [int("".join(map(str, ind)), 2) for ind in P]
+            P = [x for _, x in sorted(zip(decimal_repr, P))]
             for ind in P:
                 f.write(str(ind) + "\n")
 
