@@ -11,8 +11,8 @@ from eva_algos.operators import multi_node_swap
 ######################################
 
 ### main settings ###
-GRAPH_FILE_NAME = "instances/unconstrained/200_2.txt"
-MU = 32
+GRAPH_FILE_NAME = "instances/unconstrained/50_2.txt"
+MU = 2
 CONSTRAINED = True             # if True, the algorithm is constrained and will use (1+alpha) * OPT as an upper bound
 ALPHA = 0.05 if CONSTRAINED else 0.0
 
@@ -33,7 +33,7 @@ FITNESS_FX = mvc_hamming_diversity
 
 ### message settings ###
 DEBUG = False
-LOGGING = False
+LOGGING = True
 
 ### misc settings ###
 RANDOM_SEED = 42

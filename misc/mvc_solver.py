@@ -37,7 +37,7 @@ def ilp_solve_mvc(adjacency_matrix):
     vertex_cover_idx = [v for v in V if x[v].x == 1]
     print("Vertex cover found by the ILP solver:")
     print(vertex_cover_idx)
-    print("Number of vertices in the vertex cover:")
+    print("Number of vertices in the ILP vertex cover:")
     print(len(vertex_cover_idx))
 
     return vertex_cover_idx

@@ -3,9 +3,10 @@ import random
 import numpy as np
 
 from eva_algos.utils import C, get_vertex_nodes_idx, get_ind_from_vertex_nodes_idx, count_unique_pop
+from instances.instance_renderer import vertex_cover_graph
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
     FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED, EARLY_DIVERSE_STOP_CNT, \
-    NO_FIT_IMP_STOP_CNT, RANDOM_SEED, DELTA, SETTINGS_DICT
+    NO_FIT_IMP_STOP_CNT, RANDOM_SEED, DELTA, SETTINGS_DICT, LOGGING
 from misc.mvc_solver import ilp_solve_mvc
 
 
@@ -28,14 +29,15 @@ def mu_plus_one_ea():
         log_dir += "unconstrained/"
     log_dir += "n-" + str(NUM_GENES) + "_d-" + str(DELTA) + "_m-" + str(MU) + "/"
 
-    # create the log directory if it does not exist
-    if not os.path.exists(log_dir):
-        os.makedirs(log_dir)
+    if LOGGING:
+        # create the log directory if it does not exist
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir)
 
-    # save SETTING_DICT into settings.txt
-    with open(log_dir + "settings.txt", "w") as f:
-        for key, value in SETTINGS_DICT.items():
-            f.write(f"{key}: {value}\n")
+        # save SETTING_DICT into settings.txt
+        with open(log_dir + "settings.txt", "w") as f:
+            for key, value in SETTINGS_DICT.items():
+                f.write(f"{key}: {value}\n")
 
     ####################################
     # Start of the mu+1 implementation #
@@ -45,6 +47,17 @@ def mu_plus_one_ea():
     min_vc = ilp_solve_mvc(GRAPH_INSTANCE)
     min_vc_ind = get_ind_from_vertex_nodes_idx(min_vc, NUM_GENES)
     OPT = C(min_vc_ind) if CONSTRAINED else np.Inf
+
+    if LOGGING:
+        # save min_vc_ind to file
+        with open(log_dir + "ilp_min_vc.txt", "w") as f:
+            f.write(str(min_vc))
+
+        # save min_vc_ind as plot to file
+        vertex_cover_graph(GRAPH_INSTANCE, min_vc, log_dir + "ilp_min_vc.png")
+
+        print(f"Max mu+1 generations: {NUM_GENERATIONS}")
+        print("generation, unique_ind, population_fitness, best_ind_vc_cnt")
 
     # Initialise population with 𝜇 individuals of a same random or heuristic individual
     P = POPULATION_GENERATOR(MU, NUM_GENES, ALPHA, OPT, GRAPH_INSTANCE, min_vc_ind)
@@ -70,26 +83,37 @@ def mu_plus_one_ea():
 
         assert len(P) == MU
 
+        ########################################################################
+        # Logging: generation, unique_ind, population_fitness, best_ind_vc_cnt #
+        ########################################################################
+        # Check diversity
+        generation = i
+        unique_ind = count_unique_pop(P)
+        population_fitness = FITNESS_FX(None, P)
+        best_ind_vc_cnt = min(P, key=lambda ind: C(ind))
+
+        if LOGGING:
+            log_line = f"{generation},{unique_ind},{population_fitness},{C(best_ind_vc_cnt)}\n"
+            print(log_line, end="")
+            # save generation, unique_ind, population_fitness, best_ind_fit to file
+            with open(log_dir + "log.txt", "a") as f:
+                f.write(log_line)
+
         #################################################################
         # The following sections are not part of the original algorithm #
         #################################################################
-
-        # Check diversity
-        different_ind_cnt = len(set(tuple(ind) for ind in P))
-        print(f"Generation {i}: {different_ind_cnt} unique individuals")
-
         # Early stopping if maximum diversity is reached
         if EARLY_DIVERSE_STOP:
             # stops if all individuals in the population are different
             # counts the number of unique individuals in the population
-            if different_ind_cnt == len(P):
+            if unique_ind == len(P):
                 print(f"Early stopped reason: max diversity reached")
                 break
 
         # Early stopping if no improvement in diversity for EARLY_DIVERSE_STOP_CNT generations
         if EARLY_DIVERSE_STOP_CNT > 0:
-            if different_ind_cnt > last_gen_diversity:
-                last_gen_diversity = different_ind_cnt
+            if unique_ind > last_gen_diversity:
+                last_gen_diversity = unique_ind
                 same_diversity_cnt = 0
             else:
                 same_diversity_cnt += 1
@@ -101,7 +125,6 @@ def mu_plus_one_ea():
         # Early stopping if no improvement in fitness for NO_FIT_IMP_STOP_CNT generations
         if NO_FIT_IMP_STOP_CNT > 0:
             curr_gen_fitness = FITNESS_FX(None, P)
-            print(f"Generation {i}: fitness {curr_gen_fitness}")
             if curr_gen_fitness != last_gen_fitness:
                 last_gen_fitness = curr_gen_fitness
                 same_fitness_cnt = 0
@@ -115,8 +138,32 @@ def mu_plus_one_ea():
     print(f"Finished after {i} generations")
     print(f"Found {count_unique_pop(P)} different individuals")
     print(f"The population has a fitness of {FITNESS_FX(None, P)}")
+    print(f"The best individual has a vertex cover of {C(min(P, key=lambda ind: C(ind)))} nodes")
 
+    ######################
+    # Last logging steps #
+    ######################
     best_ind = min(P, key=lambda ind: C(ind))  # only useful for minimum vertex cover search
     best_found_vc = get_vertex_nodes_idx(best_ind)
+
+    if LOGGING:
+        # save the best individual to file
+        with open(log_dir + "best_found_vc.txt", "w") as f:
+            f.write(str(best_found_vc))
+
+        # save the best individual as plot to file
+        vertex_cover_graph(GRAPH_INSTANCE, best_found_vc, log_dir + "best_found_vc.png")
+
+        # save the population to file
+        with open(log_dir + "population.txt", "w") as f:
+            for ind in P:
+                f.write(str(ind) + "\n")
+
+        # save every individual of the population as plot to the directory pop_plots
+        pop_plots_dir = log_dir + "pop_plots/"
+        if not os.path.exists(pop_plots_dir):
+            os.makedirs(pop_plots_dir)
+        for i, ind in enumerate(P):
+            vertex_cover_graph(GRAPH_INSTANCE, get_vertex_nodes_idx(ind), pop_plots_dir + f"ind_{i}.png")
 
     return P, best_ind, best_found_vc, min_vc
