@@ -19,7 +19,7 @@ def create_graph_from_adj_matrix(adjacency_matrix):
     return graph
 
 
-def draw_graph(graph, vertex_cover=None):
+def draw_graph(graph, vertex_cover=None, save_path=None):
     """
     Draw a NetworkX graph with optional vertex cover.
     :param graph: The graph to be drawn
@@ -50,7 +50,10 @@ def draw_graph(graph, vertex_cover=None):
     # Draw edges
     nx.draw_networkx_edges(graph, pos, **edge_options)
 
-    plt.show()
+    if save_path is not None:
+        plt.savefig(save_path)
+    else:
+        plt.show()
 
 
 def plain_graph(adjacency_matrix):
@@ -63,7 +66,7 @@ def plain_graph(adjacency_matrix):
     draw_graph(graph)
 
 
-def vertex_cover_graph(adjacency_matrix, vertex_cover):
+def vertex_cover_graph(adjacency_matrix, vertex_cover, save_path=None):
     """
     basic graph renderer / with vertex cover
     :param adjacency_matrix: adjacency matrix of the graph
@@ -71,7 +74,7 @@ def vertex_cover_graph(adjacency_matrix, vertex_cover):
     :return:
     """
     graph = create_graph_from_adj_matrix(adjacency_matrix)
-    draw_graph(graph, vertex_cover)
+    draw_graph(graph, vertex_cover, save_path)
 
 
 # 3. multiple vertex cover renderer
