@@ -17,6 +17,8 @@ def generate_graph(n, delta):
                         adjacency_matrix[i][j] = 1
                         adjacency_matrix[j][i] = 1
             else:
+                # we save the weight of the node in the diagonal
+                # starting from 2 for the weights because 1 is used for indicating normal edges
                 adjacency_matrix[i][i] = np.random.randint(2, 2001)
 
     while calculate_delta(adjacency_matrix) < delta:
