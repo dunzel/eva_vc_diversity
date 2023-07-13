@@ -1,5 +1,6 @@
 import os
 import random
+from datetime import datetime
 from multiprocessing import Pool
 
 import numpy as np
@@ -53,6 +54,11 @@ def mu_plus_one_ea():
         # delete log txt files if they exist
         if os.path.exists(log_dir + "log.txt"):
             os.remove(log_dir + "log.txt")
+
+        # write start time to start_time.txt
+        with open(log_dir + "start_time.txt", "w") as f:
+            start_time = datetime.now()
+            f.write(str(start_time))
 
     ####################################
     # Start of the mu+1 implementation #
@@ -199,5 +205,14 @@ def mu_plus_one_ea():
         df.plot(x="generation", y=["unique_ind", "population_fitness", "best_ind_vc_cnt"], subplots=True, layout=(3, 1), figsize=(10, 10))
 
         plt.savefig(log_dir + "log.png")
+
+        # write end time to file
+        with open(log_dir + "end_time.txt", "w") as f:
+            f.write(str(datetime.now()))
+
+        # write computation time to file
+        with open(log_dir + "computation_time.txt", "w") as f:
+            f.write(str(datetime.now() - start_time))
+
 
     return P, best_ind, best_found_vc, min_vc
