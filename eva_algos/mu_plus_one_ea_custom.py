@@ -1,5 +1,7 @@
 import os
 import random
+from multiprocessing import Pool
+
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -8,8 +10,15 @@ from eva_algos.utils import C, get_vertex_nodes_idx, get_ind_from_vertex_nodes_i
 from instances.instance_renderer import vertex_cover_graph
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
     FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED, EARLY_DIVERSE_STOP_CNT, \
-    NO_FIT_IMP_STOP_CNT, RANDOM_SEED, DELTA, SETTINGS_DICT, LOGGING
+    NO_FIT_IMP_STOP_CNT, RANDOM_SEED, DELTA, SETTINGS_DICT, LOGGING, USE_PARALLEL
 from misc.mvc_solver import ilp_solve_mvc
+
+
+def ind_fit_fx(ind, P, FITNESS_FX):
+    """
+    Fitness function for the individuals in the population
+    """
+    return FITNESS_FX(ind, P)
 
 
 def mu_plus_one_ea():
@@ -71,6 +80,10 @@ def mu_plus_one_ea():
     # Early stopping variables and iteration counter
     last_gen_diversity = same_diversity_cnt = last_gen_fitness = same_fitness_cnt = i = 0
 
+    # Initialise Pool object outside the loop
+    if USE_PARALLEL:
+        pool = Pool()
+
     for i in range(NUM_GENERATIONS):
         # Choose a random individual from the population and mutate it
         T = random.choice(P)
@@ -83,8 +96,12 @@ def mu_plus_one_ea():
         # Remove the individual with the lowest fitness from the population
         # i.e. the ind with the lowest contribution to diversity
         if len(P) == MU + 1:
-            ind_fit_fx = lambda ind: FITNESS_FX(ind, P)
-            worst_ind = max(P, key=ind_fit_fx)
+            if USE_PARALLEL:
+                fitnesses = pool.starmap(ind_fit_fx, [(ind, P, FITNESS_FX) for ind in P])
+                worst_ind = P[fitnesses.index(max(fitnesses))]
+            else:
+                worst_ind = max(P, key=lambda ind: FITNESS_FX(ind, P))
+
             P.remove(worst_ind)
 
         assert len(P) == MU
@@ -147,6 +164,9 @@ def mu_plus_one_ea():
     print(f"The best individual has a vertex cover of {C(min(P, key=lambda ind: C(ind)))} nodes")
     print(f"The ilp solution has a vertex cover of {C(min_vc_ind)} nodes")
 
+    if USE_PARALLEL:
+        pool.close()
+        pool.join()
 
     ######################
     # Last logging steps #
