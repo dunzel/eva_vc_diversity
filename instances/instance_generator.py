@@ -17,7 +17,7 @@ def generate_graph(n, delta):
                         adjacency_matrix[i][j] = 1
                         adjacency_matrix[j][i] = 1
             else:
-                adjacency_matrix[i][i] = np.random.randint(1, 1001)
+                adjacency_matrix[i][i] = np.random.randint(2, 2001)
 
     while calculate_delta(adjacency_matrix) < delta:
         i = np.random.randint(0, n)

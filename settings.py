@@ -11,7 +11,7 @@ from eva_algos.operators import multi_node_swap
 ######################################
 
 ### main settings ###
-GRAPH_FILE_NAME = "instances/unconstrained/50_2.txt"
+GRAPH_FILE_NAME = "instances/50_4.txt"
 MU = 50
 CONSTRAINED = False             # if True, the algorithm is constrained and will use (1+alpha) * OPT as an upper bound
 ALPHA = 0.05 if CONSTRAINED else 0.0
