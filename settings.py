@@ -13,8 +13,8 @@ from eva_algos.operators import multi_node_swap
 ### main settings ###
 GRAPH_FILE_NAME = "instances/400_4.txt"
 MU = 50
-CONSTRAINED = False             # if True, the algorithm is constrained and will use (1+alpha) * OPT as an upper bound
-ALPHA = 0.05 if CONSTRAINED else 0.0
+CONSTRAINT = False             # if True, the algorithm is constraint and will use (1+alpha) * OPT as an upper bound
+ALPHA = 0.05 if CONSTRAINT else 0.0
 
 ### fixed settings ###
 GRAPH_INSTANCE = load_instance(GRAPH_FILE_NAME)     # Don't change this
@@ -27,7 +27,7 @@ EARLY_DIVERSE_STOP_CNT = 0                                 # stop, if diversity 
 NO_FIT_IMP_STOP_CNT = int(200 * (0.99826**NUM_GENES))      # stop, if fitness has not increased this many generations
 
 ### callbacks/function settings ###
-POPULATION_GENERATOR = all_ones_pop if not CONSTRAINED else heuristic_pop
+POPULATION_GENERATOR = all_ones_pop if not CONSTRAINT else heuristic_pop
 MUTATION_FX = multi_node_swap
 FITNESS_FX = mvc_hamming_diversity
 
@@ -59,7 +59,7 @@ SETTINGS_DICT = {
     "EARLY_DIVERSE_STOP": EARLY_DIVERSE_STOP,
     "EARLY_DIVERSE_STOP_CNT": EARLY_DIVERSE_STOP_CNT,
     "NO_FIT_IMP_STOP_CNT": NO_FIT_IMP_STOP_CNT,
-    "CONSTRAINED": CONSTRAINED,
+    "CONSTRAINT": CONSTRAINT,
     "ALPHA": ALPHA,
     "RANDOM_SEED": RANDOM_SEED,
     "DEBUG": DEBUG,

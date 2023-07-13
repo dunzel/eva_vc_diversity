@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 from eva_algos.utils import C, get_vertex_nodes_idx, get_ind_from_vertex_nodes_idx, count_unique_pop
 from instances.instance_renderer import vertex_cover_graph
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
-    FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED, EARLY_DIVERSE_STOP_CNT, \
+    FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINT, EARLY_DIVERSE_STOP_CNT, \
     NO_FIT_IMP_STOP_CNT, RANDOM_SEED, DELTA, SETTINGS_DICT, LOGGING, USE_PARALLEL
 from misc.mvc_solver import ilp_solve_mvc
 
@@ -35,7 +35,7 @@ def mu_plus_one_ea():
 
     # Create logging directory
     log_dir = "./results/"
-    if CONSTRAINED:
+    if CONSTRAINT:
         log_dir += "constrained" + "_" + str(ALPHA) + "/"
     else:
         log_dir += "unconstrained/"
@@ -67,7 +67,7 @@ def mu_plus_one_ea():
     # Calculate the minimum vertex cover
     min_vc = ilp_solve_mvc(GRAPH_INSTANCE)
     min_vc_ind = get_ind_from_vertex_nodes_idx(min_vc, NUM_GENES)
-    OPT = C(min_vc_ind) if CONSTRAINED else np.Inf
+    OPT = C(min_vc_ind) if CONSTRAINT else np.Inf
 
     if LOGGING:
         # save min_vc_ind to file
