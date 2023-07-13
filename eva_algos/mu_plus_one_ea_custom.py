@@ -56,9 +56,9 @@ def mu_plus_one_ea():
             os.remove(log_dir + "log.txt")
 
         # write start time to start_time.txt
-        with open(log_dir + "start_time.txt", "w") as f:
-            start_time = datetime.now()
-            f.write(str(start_time))
+        start_time = datetime.now()
+        with open(log_dir + "timestamps.txt", "a") as f:
+            f.write(f"Start time: {start_time}\n")
 
     ####################################
     # Start of the mu+1 implementation #
@@ -210,13 +210,10 @@ def mu_plus_one_ea():
 
         plt.savefig(log_dir + "log.png")
 
-        # write end time to file
-        with open(log_dir + "end_time.txt", "w") as f:
-            f.write(str(datetime.now()))
-
-        # write computation time to file
-        with open(log_dir + "computation_time.txt", "w") as f:
-            f.write(str(datetime.now() - start_time))
+        # write end time and computation time to file
+        with open(log_dir + "timestamps.txt", "a") as f:
+            f.write(f"End time: {datetime.now()}\n")
+            f.write(f"Computation time: {datetime.now() - start_time}\n")
 
 
     return P, best_ind, best_found_vc, min_vc
