@@ -1,6 +1,8 @@
 import networkx as nx
 from matplotlib import pyplot as plt
 
+from settings import RANDOM_SEED
+
 
 def create_graph_from_adj_matrix(adjacency_matrix):
     """
@@ -26,10 +28,10 @@ def draw_graph(graph, vertex_cover=None):
     :return:
     """
     # square figure
-    plt.figure(figsize=(10, 10))
+    plt.figure(figsize=(15, 15))
 
     # Use a circular layout for the nodes
-    pos = nx.circular_layout(graph)
+    pos = nx.spring_layout(graph, k=0.70, seed=RANDOM_SEED)
 
     # Set node and edge drawing options
     node_options = {"node_size": 500, "alpha": 1.0}  # Alpha set to 1.0 for non-transparent nodes
