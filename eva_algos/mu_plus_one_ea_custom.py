@@ -67,7 +67,7 @@ def mu_plus_one_ea():
     # Calculate the minimum vertex cover
     min_vc = ilp_solve_mvc(GRAPH_INSTANCE)
     min_vc_ind = get_ind_from_vertex_nodes_idx(min_vc, NUM_GENES)
-    OPT = C(min_vc_ind) if CONSTRAINT else np.Inf
+    OPT = C(min_vc_ind, True, GRAPH_INSTANCE) if CONSTRAINT else np.Inf
 
     if LOGGING:
         # save min_vc_ind to file
@@ -96,7 +96,7 @@ def mu_plus_one_ea():
         T_m = MUTATION_FX(T, GRAPH_INSTANCE)
 
         # Check if the cost of the mutated individual is in the range of the relaxed optimal solution
-        if C(T_m) <= (1 + ALPHA) * OPT:
+        if C(T_m, CONSTRAINT, GRAPH_INSTANCE) <= (1 + ALPHA) * OPT:
             P.append(T_m)
 
         # Remove the individual with the lowest fitness from the population
@@ -119,10 +119,11 @@ def mu_plus_one_ea():
         generation = i
         unique_ind = count_unique_pop(P)
         population_fitness = FITNESS_FX(None, P)
-        best_ind_vc_cnt = min(P, key=lambda ind: C(ind))
+        best_ind_vc_cnt = min(P, key=lambda ind: C(ind, CONSTRAINT, GRAPH_INSTANCE))
 
         if LOGGING:
-            log_line = f"{generation},{unique_ind},{population_fitness},{C(best_ind_vc_cnt)}\n"
+            log_line = f"{generation},{unique_ind},{population_fitness}," \
+                       f"{C(best_ind_vc_cnt, CONSTRAINT, GRAPH_INSTANCE)}\n"
             print(log_line, end="")
             # save generation, unique_ind, population_fitness, best_ind_fit to file
             with open(log_dir + "log.txt", "a") as f:
@@ -167,8 +168,8 @@ def mu_plus_one_ea():
     print(f"Finished after {i} generations")
     print(f"Found {count_unique_pop(P)} different individuals")
     print(f"The population has a fitness of {FITNESS_FX(None, P)}")
-    print(f"The best individual has a vertex cover of {C(min(P, key=lambda ind: C(ind)))} nodes")
-    print(f"The ilp solution has a vertex cover of {C(min_vc_ind)} nodes")
+    print(f"The best individual has a vertex cover of {C(min(P, key=lambda ind: C(ind)), CONSTRAINT, GRAPH_INSTANCE)} nodes")
+    print(f"The ilp solution has a vertex cover of {C(min_vc_ind, CONSTRAINT, GRAPH_INSTANCE)} nodes")
 
     if USE_PARALLEL:
         pool.close()
@@ -177,7 +178,7 @@ def mu_plus_one_ea():
     ######################
     # Last logging steps #
     ######################
-    best_ind = min(P, key=lambda ind: C(ind))  # only useful for minimum vertex cover search
+    best_ind = min(P, key=lambda ind: C(ind, CONSTRAINT, GRAPH_INSTANCE))  # only useful for minimum vertex cover search
     best_found_vc = get_vertex_nodes_idx(best_ind)
 
     if LOGGING:

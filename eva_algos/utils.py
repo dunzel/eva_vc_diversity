@@ -3,9 +3,13 @@ import random
 EDGE_WEIGHT = 1  # Don't change! Is 1 if there should be an edge weight
 
 
-def C(ind):
+def C(ind, contraint=False, adjacency_matrix=None):
     """Cost function"""
-    return sum(ind)
+    if not contraint:
+        return sum(ind)
+    else:
+        assert adjacency_matrix is not None
+        return sum([ind[i] * adjacency_matrix[i][i] for i in range(len(ind))])
 
 
 def get_vertex_nodes_idx(ind):
@@ -62,7 +66,7 @@ def get_graph_representation(adjacency_matrix):
     return V, E
 
 
-def repair_ind(ind, adjacency_matrix):
+def repair_ind(ind, adjacency_matrix, constraint):
     """
     Repairs an individual that is not a valid solution
     actually it works like the 2-opt heuristic
@@ -73,8 +77,16 @@ def repair_ind(ind, adjacency_matrix):
     random.shuffle(E)
 
     for e in E:
-        if ind[e[0]] == 0 and ind[e[1]] == 0:
-            ind[random.choice(e)] = 1
+        if not constraint:
+            if ind[e[0]] == 0 and ind[e[1]] == 0:
+                new_vc_node = random.choice(e)
+        else:
+            if adjacency_matrix[e[0]][e[0]] <= adjacency_matrix[e[1]][e[1]]:
+                new_vc_node = e[0]
+            else:
+                new_vc_node = e[1]
+
+        ind[new_vc_node] = 1
 
     assert is_vertex_cover(adjacency_matrix, ind)
 

@@ -11,10 +11,10 @@ from eva_algos.operators import multi_node_swap
 ######################################
 
 ### main settings ###
-GRAPH_FILE_NAME = "instances/400_4.txt"
-MU = 50
-CONSTRAINT = False             # if True, the algorithm is constraint and will use (1+alpha) * OPT as an upper bound
-ALPHA = 0.05 if CONSTRAINT else 0.0
+GRAPH_FILE_NAME = "instances/special/5_alpha_test.txt"
+MU = 5
+CONSTRAINT = True             # if True, the algorithm is constraint and will use (1+alpha) * OPT as an upper bound
+ALPHA = 0.85 if CONSTRAINT else 0.0
 
 ### fixed settings ###
 GRAPH_INSTANCE = load_instance(GRAPH_FILE_NAME)     # Don't change this

@@ -1,6 +1,7 @@
 from gurobipy import *
 
 from eva_algos.utils import get_graph_representation
+from settings import CONSTRAINT
 
 
 def ilp_solve_mvc(adjacency_matrix):
@@ -24,7 +25,10 @@ def ilp_solve_mvc(adjacency_matrix):
     model.update()
 
     # Objective function
-    model.setObjective(quicksum(x[v] for v in V), GRB.MINIMIZE)
+    if not CONSTRAINT:
+        model.setObjective(quicksum(x[v] for v in V), GRB.MINIMIZE)
+    else:
+        model.setObjective(quicksum(x[v] * adjacency_matrix[v][v] for v in V), GRB.MINIMIZE)
 
     # Constraints
     for e in E:

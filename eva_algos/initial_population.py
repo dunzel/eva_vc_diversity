@@ -8,6 +8,8 @@
 # The function needs to return a list of lists of 0s and 1s
 import copy
 
+import numpy as np
+
 from eva_algos.utils import C, repair_ind
 
 
@@ -18,11 +20,13 @@ def heuristic_pop(mu, n, alpha, OPT, adjacency_matrix, mvc_ind):
     So we can work with this when using the approximation factor up to alpha = 1
     """
     init_ind = None
+    constrained = OPT < np.inf
+
     while True:
         zero_ind = [0] * n
-        init_ind = repair_ind(zero_ind, adjacency_matrix)
+        init_ind = repair_ind(zero_ind, adjacency_matrix, constrained)
 
-        if C(init_ind) <= (1 + alpha) * OPT:
+        if C(init_ind, constrained, adjacency_matrix) <= (1 + alpha) * OPT:
             break
 
     P = [init_ind] * mu
