@@ -1,10 +1,11 @@
+import os
 import random
 import numpy as np
 
 from eva_algos.utils import C, get_vertex_nodes_idx, get_ind_from_vertex_nodes_idx, count_unique_pop
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
     FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINED, EARLY_DIVERSE_STOP_CNT, \
-    NO_FIT_IMP_STOP_CNT, RANDOM_SEED
+    NO_FIT_IMP_STOP_CNT, RANDOM_SEED, DELTA, SETTINGS_DICT
 from misc.mvc_solver import ilp_solve_mvc
 
 
@@ -14,6 +15,31 @@ def mu_plus_one_ea():
     :return: the diverse population, the so far best individual, the so far best vertex cover, the minimum vertex cover
     """
     random.seed(RANDOM_SEED)
+
+    #################
+    # Logging Setup #
+    #################
+
+    # Create logging directory
+    log_dir = "./results/"
+    if CONSTRAINED:
+        log_dir += "constrained" + "_" + str(ALPHA) + "/"
+    else:
+        log_dir += "unconstrained/"
+    log_dir += "n-" + str(NUM_GENES) + "_d-" + str(DELTA) + "_m-" + str(MU) + "/"
+
+    # create the log directory if it does not exist
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+
+    # save SETTING_DICT into settings.txt
+    with open(log_dir + "settings.txt", "w") as f:
+        for key, value in SETTINGS_DICT.items():
+            f.write(f"{key}: {value}\n")
+
+    ####################################
+    # Start of the mu+1 implementation #
+    ####################################
 
     # Calculate the minimum vertex cover
     min_vc = ilp_solve_mvc(GRAPH_INSTANCE)
