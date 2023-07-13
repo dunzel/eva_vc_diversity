@@ -1,6 +1,8 @@
 import os
 import random
 import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
 
 from eva_algos.utils import C, get_vertex_nodes_idx, get_ind_from_vertex_nodes_idx, count_unique_pop
 from instances.instance_renderer import vertex_cover_graph
@@ -38,6 +40,10 @@ def mu_plus_one_ea():
         with open(log_dir + "settings.txt", "w") as f:
             for key, value in SETTINGS_DICT.items():
                 f.write(f"{key}: {value}\n")
+
+        # delete log txt files if they exist
+        if os.path.exists(log_dir + "log.txt"):
+            os.remove(log_dir + "log.txt")
 
     ####################################
     # Start of the mu+1 implementation #
@@ -139,6 +145,8 @@ def mu_plus_one_ea():
     print(f"Found {count_unique_pop(P)} different individuals")
     print(f"The population has a fitness of {FITNESS_FX(None, P)}")
     print(f"The best individual has a vertex cover of {C(min(P, key=lambda ind: C(ind)))} nodes")
+    print(f"The ilp solution has a vertex cover of {C(min_vc_ind)} nodes")
+
 
     ######################
     # Last logging steps #
@@ -147,23 +155,29 @@ def mu_plus_one_ea():
     best_found_vc = get_vertex_nodes_idx(best_ind)
 
     if LOGGING:
-        # save the best individual to file
+        # saving the best individual to file
         with open(log_dir + "best_found_vc.txt", "w") as f:
             f.write(str(best_found_vc))
 
-        # save the best individual as plot to file
+        # saving the best individual as plot to file
         vertex_cover_graph(GRAPH_INSTANCE, best_found_vc, log_dir + "best_found_vc.png")
 
-        # save the population to file
+        # saving the population to file
         with open(log_dir + "population.txt", "w") as f:
             for ind in P:
                 f.write(str(ind) + "\n")
 
-        # save every individual of the population as plot to the directory pop_plots
+        # saving every individual of the population as plot to the directory pop_plots
         pop_plots_dir = log_dir + "pop_plots/"
         if not os.path.exists(pop_plots_dir):
             os.makedirs(pop_plots_dir)
         for i, ind in enumerate(P):
             vertex_cover_graph(GRAPH_INSTANCE, get_vertex_nodes_idx(ind), pop_plots_dir + f"ind_{i}.png")
+
+        # plotting the log
+        df = pd.read_csv(log_dir + "log.txt", header=None, names=["generation", "unique_ind", "population_fitness", "best_ind_vc_cnt"])
+        df.plot(x="generation", y=["unique_ind", "population_fitness", "best_ind_vc_cnt"], subplots=True, layout=(3, 1), figsize=(10, 10))
+
+        plt.savefig(log_dir + "log.png")
 
     return P, best_ind, best_found_vc, min_vc
