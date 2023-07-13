@@ -5,6 +5,8 @@ from eva_algos.utils import get_vertex_nodes_idx, is_vertex_cover
 from instances.instance_renderer import vertex_cover_graph
 from settings import GRAPH_INSTANCE
 
+EDGE_WEIGHT = 1  # Don't change! Is 1 if there should be an edge weight
+
 
 def brute_force_diversity_counter(adjacency_matrix, max_vc_len, ignore_isolated_nodes):
     """
@@ -24,7 +26,7 @@ def brute_force_diversity_counter(adjacency_matrix, max_vc_len, ignore_isolated_
                 continue
 
         # Ignore if the vc is not a valid vertex cover
-        if not is_vertex_cover(adjacency_matrix, vc):
+        if not is_vertex_cover(adjacency_matrix, vc, EDGE_WEIGHT):
             continue
 
         filtered_vertex_covers.append(vc)

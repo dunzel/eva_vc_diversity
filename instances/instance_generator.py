@@ -1,5 +1,7 @@
 import numpy as np
 
+EDGE_WEIGHT = 1  # Don't change! Is 1 if there should be an edge weight
+
 
 def generate_graph(n, delta):
     """
@@ -14,8 +16,8 @@ def generate_graph(n, delta):
             if i != j:
                 if i < j:
                     if np.random.rand() < (delta / n):
-                        adjacency_matrix[i][j] = 1
-                        adjacency_matrix[j][i] = 1
+                        adjacency_matrix[i][j] = EDGE_WEIGHT
+                        adjacency_matrix[j][i] = EDGE_WEIGHT
             else:
                 # we save the weight of the node in the diagonal
                 # starting from 2 for the weights because 1 is used for indicating normal edges
@@ -25,8 +27,8 @@ def generate_graph(n, delta):
         i = np.random.randint(0, n)
         j = np.random.randint(0, n)
         if i != j:
-            adjacency_matrix[i][j] = 1
-            adjacency_matrix[j][i] = 1
+            adjacency_matrix[i][j] = EDGE_WEIGHT
+            adjacency_matrix[j][i] = EDGE_WEIGHT
 
     while calculate_delta(adjacency_matrix) > delta:
         i = np.random.randint(0, n)
@@ -51,7 +53,7 @@ def save_instance(adjacency_matrix, path):
         # write the edges to the file
         for i in range(len(adjacency_matrix)):
             for j in range(len(adjacency_matrix)):
-                if adjacency_matrix[i][j] == 1:
+                if adjacency_matrix[i][j] == EDGE_WEIGHT:
                     file.write(str(i) + " " + str(j) + " 0\n")
                 # For node weights:
                 if i == j:
@@ -94,7 +96,7 @@ def calculate_delta(adjacency_matrix):
     for i in range(n):
         for j in range(n):
             if i < j:
-                if adjacency_matrix[i][j] == 1:
+                if adjacency_matrix[i][j] == EDGE_WEIGHT:
                     edges += 1
 
     # divide by the amount of nodes

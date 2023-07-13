@@ -3,6 +3,8 @@ from matplotlib import pyplot as plt
 
 from settings import RANDOM_SEED
 
+EDGE_WEIGHT = 1  # Don't change! Is 1 if there should be an edge weight
+
 
 def create_graph_from_adj_matrix(adjacency_matrix):
     """
@@ -14,7 +16,7 @@ def create_graph_from_adj_matrix(adjacency_matrix):
     for i in range(len(adjacency_matrix)):
         graph.add_node(i)
         for j in range(len(adjacency_matrix)):
-            if adjacency_matrix[i][j] == 1:
+            if adjacency_matrix[i][j] == EDGE_WEIGHT:
                 graph.add_edge(i, j)
     return graph
 

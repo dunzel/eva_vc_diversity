@@ -2,6 +2,9 @@ import random
 
 from eva_algos.utils import get_vertex_nodes_idx
 
+EDGE_WEIGHT = 1  # Don't change! Is 1 if there should be an edge weight
+
+
 #########################################
 # Mutation operators for single parents #
 #########################################
@@ -34,7 +37,7 @@ def multi_node_swap(parent, adjacency_matrix):
     # get all nodes that are connected to the selected node
     connected_nodes = []
     for i in range(len(adjacency_matrix)):
-        if adjacency_matrix[selected_node][i] == 1:
+        if adjacency_matrix[selected_node][i] == EDGE_WEIGHT:
             connected_nodes.append(i)
 
     # set all connected nodes to 1

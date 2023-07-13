@@ -1,5 +1,7 @@
 import random
 
+EDGE_WEIGHT = 1  # Don't change! Is 1 if there should be an edge weight
+
 
 def C(ind):
     """Cost function"""
@@ -29,7 +31,7 @@ def is_vertex_cover(adjacency_matrix, vertex_cover):
     """
     for i in range(len(adjacency_matrix)):
         for j in range(len(adjacency_matrix)):
-            if adjacency_matrix[i][j] == 1 and vertex_cover[i] == 0 and vertex_cover[j] == 0:
+            if adjacency_matrix[i][j] == EDGE_WEIGHT and vertex_cover[i] == 0 and vertex_cover[j] == 0:
                 return False
 
     return True
