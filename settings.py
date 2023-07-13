@@ -11,10 +11,10 @@ from eva_algos.operators import multi_node_swap
 ######################################
 
 ### main settings ###
-GRAPH_FILE_NAME = "instances/special/5_4.txt"
+GRAPH_FILE_NAME = "instances/unconstrained/200_2.txt"
 MU = 32
-ALPHA = 0.05
-CONSTRAINED = False             # if True, the algorithm is constrained and will use (1+alpha) * OPT as an upper bound
+CONSTRAINED = True             # if True, the algorithm is constrained and will use (1+alpha) * OPT as an upper bound
+ALPHA = 0.05 if CONSTRAINED else 0.0
 
 ### fixed settings ###
 GRAPH_INSTANCE = load_instance(GRAPH_FILE_NAME)     # Don't change this
@@ -42,23 +42,16 @@ RANDOM_SEED = 42
 # creating dict for logging settings #
 ######################################
 
-EXPECTED_DELTA_match = re.search(r"_([0-9\.]+)_", GRAPH_FILE_NAME)
-if EXPECTED_DELTA_match:
-    EXPECTED_DELTA = float(EXPECTED_DELTA_match.group(1))
+DELTA_match = re.search(r"_([0-9\.]+)\.txt$", GRAPH_FILE_NAME)
+if DELTA_match:
+    DELTA = int(DELTA_match.group(1))
 else:
-    EXPECTED_DELTA = None
-
-RESULTED_DELTA_match = re.search(r"_([0-9\.]+)\.txt$", GRAPH_FILE_NAME)
-if RESULTED_DELTA_match:
-    RESULTED_DELTA = float(RESULTED_DELTA_match.group(1))
-else:
-    RESULTED_DELTA = None
+    DELTA = "None"
 
 
 SETTINGS_DICT = {
     "GRAPH_FILE_NAME": GRAPH_FILE_NAME,
-    "EXPECTED_DELTA": EXPECTED_DELTA,
-    "RESULTED_DELTA": RESULTED_DELTA,
+    "DELTA": DELTA,
     "NUM_GENES": NUM_GENES,
     "MU": MU,
     "NUM_GENERATIONS": NUM_GENERATIONS,
