@@ -21,5 +21,6 @@ for n in ns:
                         template = template.replace("{distribution}", str(distribution))
                         template = template.replace("{alpha}", str(alpha))
                         # create this new file first and save then the edited template in it
-                        with open(f"./{n}_{delta}_{mu}_{distribution}_{alpha}.sh", "w") as f:
+                        with open(f"./first_runs/{n}_{delta}_{mu}_{distribution}_{alpha}.sh", "w") as f:
                             f.write(template)
+                    exit()

@@ -32,9 +32,6 @@ echo "Number of CPUs: $SLURM_CPUS_PER_TASK"
 echo "Started at $(date)"
 echo "------------------------------------------------------------"
 ### beginning of executable commands
-
-export PYTHONPATH=/usr/local_rwth/sw/gurobi/gurobi911/linux64/lib:/usr/local_rwth/sw/gurobi/gurobi911/linux64/lib/python3.9_utf32:/usr/local_rwth/sw/python/3.9.6/x86_64/extra/lib/python3.9/site-packages::~/eva_vc_diversity/:/home/wy360425/eva_vc_diversity/
-echo ${PYTHONPATH}
 python3 main.py --n {n} --delta {delta} --mu {mu} --distribution {distribution} --alpha {alpha}
 
 ### end of executable commands
