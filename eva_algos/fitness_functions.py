@@ -122,3 +122,33 @@ def node_overlap_pop_mean_std(population, pool):
         std = std ** 0.5
 
     return round(mean, 2), round(std, 2)
+
+
+def node_degree_and_leaf_pop_avg(population, adjacency_matrix):
+    """
+    Calculates the average node degree and average number of leafes in the population
+    """
+    avg_degree = 0
+    avg_leafes = 0
+
+    for ind in population:
+        cum_degree = 0
+        cum_leafes = 0
+        for i in range(len(ind)):
+            if ind[i] == 1:
+                curr_node_degree = sum(adjacency_matrix[i])
+                curr_node_degree -= adjacency_matrix[i][i] # remove weights as they are encoded in the adjacency matrix diagonal
+                cum_degree += curr_node_degree
+
+                if curr_node_degree == 1:
+                    cum_leafes += 1
+
+        avg_leafes += cum_leafes / sum(ind)
+        avg_degree += cum_degree / sum(ind)
+
+    avg_leafes /= len(population)
+    avg_degree /= len(population)
+
+    return round(avg_degree, 2), round(avg_leafes, 2)
+
+

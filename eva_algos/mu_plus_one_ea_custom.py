@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from eva_algos.fitness_functions import node_overlap_pop_mean_std
+from eva_algos.fitness_functions import node_overlap_pop_mean_std, node_degree_and_leaf_pop_avg
 from eva_algos.utils import C, get_vertex_nodes_idx, get_ind_from_vertex_nodes_idx, count_unique_pop
 from instances.instance_renderer import vertex_cover_graph
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
@@ -79,7 +79,8 @@ def mu_plus_one_ea():
         vertex_cover_graph(GRAPH_INSTANCE, min_vc, log_dir + "ilp_min_vc.png")
 
         print(f"Max mu+1 generations: {NUM_GENERATIONS}")
-        print("generation, unique_ind, population_fitness, best_ind_vc_cnt, mean_vc_overlap, std_vc_overlap")
+        print("generation, unique_ind, population_fitness, best_ind_vc_cnt, mean_vc_overlap, std_vc_overlap, "
+              "avg_node_degree, avg_node_leafes \n")
 
     # Initialise population with 𝜇 individuals of a same random or heuristic individual
     P = POPULATION_GENERATOR(MU, NUM_GENES, ALPHA, OPT, GRAPH_INSTANCE, min_vc_ind)
@@ -137,11 +138,13 @@ def mu_plus_one_ea():
         population_fitness = FITNESS_FX(None, P)
         best_ind_vc_cnt = min(P, key=lambda ind: C(ind, CONSTRAINT, GRAPH_INSTANCE))
         mean_vc_overlap, std_vc_overlap = node_overlap_pop_mean_std(P, pool)
+        avg_node_degree, avg_node_leafes = node_degree_and_leaf_pop_avg(P, GRAPH_INSTANCE)
 
         if LOGGING:
             log_line = f"{generation},{unique_ind},{population_fitness}," \
                        f"{C(best_ind_vc_cnt, CONSTRAINT, GRAPH_INSTANCE)}," \
-                       f"{mean_vc_overlap},{std_vc_overlap}\n"
+                       f"{mean_vc_overlap},{std_vc_overlap}," \
+                       f"{avg_node_degree},{avg_node_leafes}\n"
             print(log_line, end="")
             # save generation, unique_ind, population_fitness, best_ind_fit to file
             with open(log_dir + "log.txt", "a") as f:
@@ -224,8 +227,13 @@ def mu_plus_one_ea():
             vertex_cover_graph(GRAPH_INSTANCE, get_vertex_nodes_idx(ind), pop_plots_dir + f"ind_{i}.png")
 
         # plotting the log
-        df = pd.read_csv(log_dir + "log.txt", header=None, names=["generation", "unique_ind", "population_fitness", "best_ind_vc_cnt", "mean_vc_overlap", "std_vc_overlap"])
-        df.plot(x="generation", y=["unique_ind", "population_fitness", "best_ind_vc_cnt", "mean_vc_overlap", "std_vc_overlap"], subplots=True, layout=(5, 1), figsize=(10, 10))
+        df = pd.read_csv(log_dir + "log.txt", header=None,
+                         names=["generation", "unique_ind", "population_fitness", "best_ind_vc_cnt",
+                                "mean_vc_overlap", "std_vc_overlap", "avg_node_degree", "avg_node_leafes" ])
+        df.plot(x="generation",
+                y=["unique_ind", "population_fitness", "best_ind_vc_cnt", "mean_vc_overlap", "std_vc_overlap"
+                   , "avg_node_degree", "avg_node_leafes"],
+                subplots=True, layout=(7, 1), figsize=(10, 10))
 
         plt.savefig(log_dir + "log.png")
 
