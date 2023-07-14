@@ -45,3 +45,4 @@ Max mu+1 generations: 2560000
 Cut-off after 282 same generation fitness values
 generation, unique_ind, population_fitness, best_ind_vc_cnt, mean_vc_overlap, std_vc_overlap, avg_node_degree, avg_node_leafes 
 
+slurmstepd: error: *** JOB 36735993 ON ncm0432 CANCELLED AT 2023-07-14T17:34:05 ***

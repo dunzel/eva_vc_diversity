@@ -37,3 +37,4 @@ Solution count 2: 13514 25791
 
 Optimal solution found (tolerance 1.00e-04)
 Best objective 1.351400000000e+04, best bound 1.351400000000e+04, gap 0.0000%
+slurmstepd: error: *** JOB 36736017 ON ncm0266 CANCELLED AT 2023-07-14T17:34:05 ***
