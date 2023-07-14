@@ -1,4 +1,4 @@
-import math
+import argparse
 import re
 import time
 
@@ -7,16 +7,26 @@ from eva_algos.initial_population import all_ones_pop, heuristic_pop
 from instances.instance_generator import load_instance
 from eva_algos.operators import multi_node_swap
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--n", default=50, type=int, help="Number of vertices.")
+parser.add_argument("--delta", default=2, type=int, help="Number of edges per vertex in expectation.")
+parser.add_argument("--mu", default=2, type=int, help="Population size.")
+parser.add_argument("--distribution", default="uniform1", choices=["uniform1", "uniform2", "uniform3", "poisson"],
+                    help="Distribution of mutation probability.")
+parser.add_argument("--alpha", default=None, type=float, help="Approximation factor.")
+args = parser.parse_args([] if "__file__" not in globals() else None)
+
+
 ######################################
 # settings for an experiment #
 ######################################
 
 ### main settings ###
-GRAPH_FILE_NAME = "instances/100_2.txt"
-MU = 4
-CONSTRAINT = False             # if True, the algorithm is constraint and will use (1+alpha) * OPT as an upper bound
-ALPHA = 0.85 if CONSTRAINT else 0.0
-DISTRIBUTION = "uniform1"      # "uniform1", "uniform2", "uniform3" or "poisson"
+GRAPH_FILE_NAME = f"instances/{args.n}_{args.delta}.txt"
+MU = args.mu
+CONSTRAINT = args.alpha is not None  # if True, the algorithm is constraint and will use (1+alpha) * OPT as an upper bound
+ALPHA = args.alpha if CONSTRAINT else 0.0
+DISTRIBUTION = args.distribution  # "uniform1", "uniform2", "uniform3" or "poisson"
 
 ### fixed settings ###
 GRAPH_INSTANCE = load_instance(GRAPH_FILE_NAME)     # Don't change this
