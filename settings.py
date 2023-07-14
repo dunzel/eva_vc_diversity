@@ -13,7 +13,7 @@ parser.add_argument("--delta", default=2, type=int, help="Number of edges per ve
 parser.add_argument("--mu", default=2, type=int, help="Population size.")
 parser.add_argument("--distribution", default="uniform1", choices=["uniform1", "uniform2", "uniform3", "poisson"],
                     help="Distribution of mutation probability.")
-parser.add_argument("--alpha", default=None, type=float, help="Approximation factor.")
+parser.add_argument("--alpha", default=-1, type=float, help="Approximation factor.")  # -1 means no constraint
 args = parser.parse_args([] if "__file__" not in globals() else None)
 
 
@@ -24,7 +24,7 @@ args = parser.parse_args([] if "__file__" not in globals() else None)
 ### main settings ###
 GRAPH_FILE_NAME = f"instances/{args.n}_{args.delta}.txt"
 MU = args.mu
-CONSTRAINT = args.alpha is not None  # if True, the algorithm is constraint and will use (1+alpha) * OPT as an upper bound
+CONSTRAINT = args.alpha != -1  # if True, the algorithm is constraint and will use (1+alpha) * OPT as an upper bound
 ALPHA = args.alpha if CONSTRAINT else 0.0
 DISTRIBUTION = args.distribution  # "uniform1", "uniform2", "uniform3" or "poisson"
 
