@@ -17,10 +17,8 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=16
 
-module load python/3.9.6
-module load MATH
-module load gurobi/9.1.1
-module load gurobipy/911-3.9
+module load Python/3.10.4
+module load Gurobi/10.0.0
 
 ### Change to the work directory
 cd $HOME/eva_vc_diversity/ || exit
@@ -37,7 +35,6 @@ echo "------------------------------------------------------------"
 
 export PYTHONPATH=/usr/local_rwth/sw/gurobi/gurobi911/linux64/lib:/usr/local_rwth/sw/gurobi/gurobi911/linux64/lib/python3.9_utf32:/usr/local_rwth/sw/python/3.9.6/x86_64/extra/lib/python3.9/site-packages::~/eva_vc_diversity/:/home/wy360425/eva_vc_diversity/
 echo ${PYTHONPATH}
-pip install -r requirements.txt
 python3 main.py --n 50 --delta 2 --mu 2 --distribution uniform1 --alpha -1
 
 ### end of executable commands
