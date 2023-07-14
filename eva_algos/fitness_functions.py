@@ -69,10 +69,9 @@ def mvc_hamming_diversity(ind, population):
 
     return diversity
 
-
-#########################
-# Bad fitness functions #
-#########################
+###########################
+# Other fitness functions #
+###########################
 
 
 def node_overlap(ind1, ind2):
@@ -80,14 +79,32 @@ def node_overlap(ind1, ind2):
     # tends to set every individual to list of 0s
     VC_set_1 = set(i for i, x in enumerate(ind1) if x == 1)
     VC_set_2 = set(i for i, x in enumerate(ind2) if x == 1)
-    return len(VC_set_1 & VC_set_2)
+    overlap = len(VC_set_1 & VC_set_2)
+    return overlap
 
 
-def mvc_hamming_diversity_cmp(ind, population):
-    # gets stuck in local optima because they have the same diversity rating as the optimal solution
-    diversity = 0
+def node_overlap_ind_to_pop(ind, population):
+    population = remove_first_instance(population.copy(), ind)
+
+    overlap = 0
     for i in population:
-        if i != ind:
-            diversity += hamming_distance(ind, i)
+        overlap += node_overlap(ind, i)
 
-    return diversity
+    overlap /= len(population)
+
+    return overlap
+
+
+def node_overlap_pop_mean_std(population):
+    mean = 0
+    for i in population:
+        mean += node_overlap_ind_to_pop(i, population)
+    mean /= len(population)
+
+    std = 0
+    for i in population:
+        std += (node_overlap_ind_to_pop(i, population) - mean) ** 2
+    std /= len(population)
+    std = std ** 0.5
+
+    return mean, std
