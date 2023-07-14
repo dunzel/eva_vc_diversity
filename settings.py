@@ -11,8 +11,8 @@ from eva_algos.operators import multi_node_swap
 ######################################
 
 ### main settings ###
-GRAPH_FILE_NAME = "instances/special/5_alpha_test.txt"
-MU = 5
+GRAPH_FILE_NAME = "instances/100_2.txt"
+MU = 4
 CONSTRAINT = False             # if True, the algorithm is constraint and will use (1+alpha) * OPT as an upper bound
 ALPHA = 0.85 if CONSTRAINT else 0.0
 DISTRIBUTION = "uniform1"      # "uniform1", "uniform2", "uniform3" or "poisson"

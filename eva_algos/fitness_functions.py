@@ -59,7 +59,6 @@ def mvc_hamming_diversity(ind, population):
     # make all ind in the pop unique:
     population = get_unique_pop(population)
 
-
     # calculate the diversity of the remaining population
     diversity = 0
     for i in population:
@@ -68,6 +67,7 @@ def mvc_hamming_diversity(ind, population):
                 diversity += hamming_distance(i, j)
 
     return diversity
+
 
 ###########################
 # Other fitness functions #
@@ -111,12 +111,12 @@ def node_overlap_pop_mean_std(population, pool):
         std = ((sum((x - mean) ** 2 for x in overlaps)) / len(overlaps)) ** 0.5
     else:
         mean = 0
-        for i in population:
+        for i in range(len(population)):
             mean += node_overlap_ind_to_pop(i, population)
         mean /= len(population)
 
         std = 0
-        for i in population:
+        for i in range(len(population)):
             std += (node_overlap_ind_to_pop(i, population) - mean) ** 2
         std /= len(population)
         std = std ** 0.5
@@ -124,31 +124,41 @@ def node_overlap_pop_mean_std(population, pool):
     return round(mean, 2), round(std, 2)
 
 
-def node_degree_and_leaf_pop_avg(population, adjacency_matrix):
+def node_degree_and_leaf_calc(ind, adjacency_matrix):
+    """
+    Calculates node degree and number of leafes for a single individual
+    """
+    cum_degree = 0
+    cum_leafes = 0
+    for i in range(len(ind)):
+        if ind[i] == 1:
+            curr_node_degree = sum(adjacency_matrix[i])
+            # remove weights as they are encoded in the adjacency matrix diagonal
+            curr_node_degree -= adjacency_matrix[i][i]
+            cum_degree += curr_node_degree
+
+            if curr_node_degree == 1:
+                cum_leafes += 1
+
+    return cum_degree / sum(ind), cum_leafes / sum(ind)
+
+
+def node_degree_and_leaf_pop_avg(population, adjacency_matrix, pool):
     """
     Calculates the average node degree and average number of leafes in the population
     """
-    avg_degree = 0
-    avg_leafes = 0
+    avg_leafes, avg_degree = 0, 0
+    if pool:
+        results = pool.starmap(node_degree_and_leaf_calc, [(ind, adjacency_matrix) for ind in population])
 
-    for ind in population:
-        cum_degree = 0
-        cum_leafes = 0
-        for i in range(len(ind)):
-            if ind[i] == 1:
-                curr_node_degree = sum(adjacency_matrix[i])
-                curr_node_degree -= adjacency_matrix[i][i] # remove weights as they are encoded in the adjacency matrix diagonal
-                cum_degree += curr_node_degree
+        avg_degree = sum([x[0] for x in results]) / len(population)
+        avg_leafes = sum([x[1] for x in results]) / len(population)
+    else:
+        for ind in population:
+            avg_degree, avg_leafes = node_degree_and_leaf_calc(ind, adjacency_matrix)
 
-                if curr_node_degree == 1:
-                    cum_leafes += 1
-
-        avg_leafes += cum_leafes / sum(ind)
-        avg_degree += cum_degree / sum(ind)
-
-    avg_leafes /= len(population)
-    avg_degree /= len(population)
+        avg_leafes /= len(population)
+        avg_degree /= len(population)
 
     return round(avg_degree, 2), round(avg_leafes, 2)
-
 

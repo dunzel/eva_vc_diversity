@@ -138,7 +138,7 @@ def mu_plus_one_ea():
         population_fitness = FITNESS_FX(None, P)
         best_ind_vc_cnt = min(P, key=lambda ind: C(ind, CONSTRAINT, GRAPH_INSTANCE))
         mean_vc_overlap, std_vc_overlap = node_overlap_pop_mean_std(P, pool)
-        avg_node_degree, avg_node_leafes = node_degree_and_leaf_pop_avg(P, GRAPH_INSTANCE)
+        avg_node_degree, avg_node_leafes = node_degree_and_leaf_pop_avg(P, GRAPH_INSTANCE, pool)
 
         if LOGGING:
             log_line = f"{generation},{unique_ind},{population_fitness}," \
