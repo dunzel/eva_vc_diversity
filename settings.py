@@ -15,6 +15,7 @@ GRAPH_FILE_NAME = "instances/special/5_alpha_test.txt"
 MU = 5
 CONSTRAINT = True             # if True, the algorithm is constraint and will use (1+alpha) * OPT as an upper bound
 ALPHA = 0.85 if CONSTRAINT else 0.0
+DISTRIBUTION = "poisson"      # "uniform1", "uniform2", "uniform3" or "poisson"
 
 ### fixed settings ###
 GRAPH_INSTANCE = load_instance(GRAPH_FILE_NAME)     # Don't change this
@@ -52,6 +53,7 @@ else:
 
 SETTINGS_DICT = {
     "GRAPH_FILE_NAME": GRAPH_FILE_NAME,
+    "DISTRIBUTION": DISTRIBUTION,
     "DELTA": DELTA,
     "NUM_GENES": NUM_GENES,
     "MU": MU,
@@ -66,5 +68,6 @@ SETTINGS_DICT = {
     "POPULATION_GENERATOR": POPULATION_GENERATOR.__name__,
     "MUTATION_FX": MUTATION_FX.__name__,
     "FITNESS_FX": FITNESS_FX.__name__,
+    "USE_PARALLEL": USE_PARALLEL
 }
 

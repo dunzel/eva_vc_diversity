@@ -11,7 +11,7 @@ from eva_algos.utils import C, get_vertex_nodes_idx, get_ind_from_vertex_nodes_i
 from instances.instance_renderer import vertex_cover_graph
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
     FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINT, EARLY_DIVERSE_STOP_CNT, \
-    NO_FIT_IMP_STOP_CNT, RANDOM_SEED, DELTA, SETTINGS_DICT, LOGGING, USE_PARALLEL
+    NO_FIT_IMP_STOP_CNT, RANDOM_SEED, DELTA, SETTINGS_DICT, LOGGING, USE_PARALLEL, DISTRIBUTION
 from misc.mvc_solver import ilp_solve_mvc
 
 
@@ -39,7 +39,7 @@ def mu_plus_one_ea():
         log_dir += "constrained" + "_" + str(ALPHA) + "/"
     else:
         log_dir += "unconstrained/"
-    log_dir += "n-" + str(NUM_GENES) + "_d-" + str(DELTA) + "_m-" + str(MU) + "/"
+    log_dir += "n-" + str(NUM_GENES) + "_d-" + str(DELTA) + "_m-" + str(MU) + "_" + str(DISTRIBUTION) + "/"
 
     if LOGGING:
         # create the log directory if it does not exist
@@ -93,7 +93,21 @@ def mu_plus_one_ea():
     for i in range(NUM_GENERATIONS):
         # Choose a random individual from the population and mutate it
         T = random.choice(P)
-        T_m = MUTATION_FX(T, GRAPH_INSTANCE)
+
+        sample_set = [1]
+        if DISTRIBUTION == "uniform2":
+            sample_set = [1, 2]
+        elif DISTRIBUTION == "uniform3":
+            sample_set = [1, 2, 3]
+
+        if DISTRIBUTION in ["uniform1", "uniform2", "uniform3"]:
+            sample = random.choice(sample_set)
+        else:
+            sample = 1 + np.random.poisson(1)
+
+        T_m = T
+        for _ in range(sample):
+            T_m = MUTATION_FX(T_m, GRAPH_INSTANCE)
 
         # Check if the cost of the mutated individual is in the range of the relaxed optimal solution
         if C(T_m, CONSTRAINT, GRAPH_INSTANCE) <= (1 + ALPHA) * OPT:
