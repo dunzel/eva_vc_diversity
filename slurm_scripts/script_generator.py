@@ -2,10 +2,10 @@
 # and replace in the file the values {n}, {delta}, {mu}, {distribution}, {alpha} by corresponding variables
 
 # n, delta, mu, distributions, alpha
-ns = [50, 100, 200]  # 400
+ns = [50, 100, 200, 400]
 deltas = [2, 4, 8]
-mus = [2, 16, 32]  # 50/64
-distributions = ["uniform1", "poisson"]  # uniform2, uniform3
+mus = [2, 16, 32, 64]
+distributions = ["uniform1", "uniform2", "uniform3", "poisson"]
 alphas = [-1, 0.05, 0.5]  # 0.1
 
 for n in ns:
@@ -23,4 +23,3 @@ for n in ns:
                         # create this new file first and save then the edited template in it
                         with open(f"./first_runs/{n}_{delta}_{mu}_{distribution}_{alpha}.sh", "w") as f:
                             f.write(template)
-                    exit()

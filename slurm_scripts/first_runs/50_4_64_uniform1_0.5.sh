@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
 
 ### Job name
-#SBATCH --job-name=eva-vc__n-50__mu-2__a--1__dist-uniform1__d-2
+#SBATCH --job-name=eva-vc__n-50__mu-64__a-0.5__dist-uniform1__d-4
 
 ### declare the merged STDOUT/STDERR file
-#SBATCH --output=/home/wy360425/eva_vc_diversity/slurm_scripts/outputs/eva-vc__n-50__mu-2__a--1__dist-uniform1__d-2.out
+#SBATCH --output=/home/wy360425/eva_vc_diversity/slurm_scripts/outputs/eva-vc__n-50__mu-64__a-0.5__dist-uniform1__d-4.out
 
 ### Request the time you need for execution in minutes
 ### The format for the parameter is: hour:minute:seconds,
@@ -32,7 +32,7 @@ echo "Number of CPUs: $SLURM_CPUS_PER_TASK"
 echo "Started at $(date)"
 echo "------------------------------------------------------------"
 ### beginning of executable commands
-python3 main.py --n 50 --delta 2 --mu 2 --distribution uniform1 --alpha -1
+python3 main.py --n 50 --delta 4 --mu 64 --distribution uniform1 --alpha 0.5
 
 ### end of executable commands
 ENDTIME=$(date +%s)
