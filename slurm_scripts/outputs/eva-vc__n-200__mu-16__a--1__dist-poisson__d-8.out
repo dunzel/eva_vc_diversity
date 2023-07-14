@@ -1,0 +1,105 @@
+[INFO] Module Python/3.10.4 loaded.
+Gurobi shell based on Python 3.10.4 can be launched with command `gurobi.sh`
+Gurobi Python Interface can be loaded in Python 3.10.4 with 'import gurobipy'
+[INFO] Module Gurobi/10.0.0 loaded.
+------------------------------------------------------------
+SLURM JOB NAME: eva-vc__n-200__mu-16__a--1__dist-poisson__d-8
+SLURM JOB ID: 36735968
+Running on nodes: ncm0396
+Number of CPUs: 16
+Started at Fri Jul 14 16:44:42 CEST 2023
+------------------------------------------------------------
+Set parameter TSPort to value 50039
+Set parameter TokenServer to value "license6.itc.rwth-aachen.de"
+Set parameter TimeLimit to value 3600
+Gurobi Optimizer version 10.0.0 build v10.0.0rc2 (linux64)
+
+CPU model: Intel(R) Xeon(R) Platinum 8160 CPU @ 2.10GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 48 physical cores, 48 logical processors, using up to 32 threads
+
+Optimize a model with 800 rows, 200 columns and 1600 nonzeros
+Model fingerprint: 0xcef4df35
+Variable types: 0 continuous, 200 integer (200 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Found heuristic solution: objective 148.0000000
+Presolve removed 159 rows and 0 columns
+Presolve time: 0.01s
+Presolved: 641 rows, 200 columns, 1382 nonzeros
+Variable types: 0 continuous, 200 integer (200 binary)
+
+Root relaxation: objective 1.190000e+02, 412 iterations, 0.01 seconds (0.01 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0  119.00000    0  178  148.00000  119.00000  19.6%     -    0s
+H    0     0                     140.0000000  119.00000  15.0%     -    0s
+H    0     0                     138.0000000  119.00000  13.8%     -    0s
+H    0     0                     136.0000000  120.98214  11.0%     -    0s
+     0     0  120.98214    0  200  136.00000  120.98214  11.0%     -    0s
+H    0     0                     135.0000000  120.98214  10.4%     -    0s
+H    0     0                     134.0000000  120.98214  9.71%     -    0s
+     0     0  120.98214    0  200  134.00000  120.98214  9.71%     -    0s
+     0     0  122.16773    0  199  134.00000  122.16773  8.83%     -    0s
+     0     0  122.27367    0  197  134.00000  122.27367  8.75%     -    0s
+     0     0  122.28209    0  198  134.00000  122.28209  8.74%     -    0s
+     0     0  122.30279    0  198  134.00000  122.30279  8.73%     -    0s
+     0     0  122.31319    0  198  134.00000  122.31319  8.72%     -    0s
+     0     0  122.31559    0  199  134.00000  122.31559  8.72%     -    0s
+     0     0  122.31575    0  199  134.00000  122.31575  8.72%     -    0s
+     0     0  122.71795    0  199  134.00000  122.71795  8.42%     -    0s
+     0     0  122.78802    0  199  134.00000  122.78802  8.37%     -    0s
+     0     0  122.79491    0  199  134.00000  122.79491  8.36%     -    0s
+     0     0  122.79841    0  199  134.00000  122.79841  8.36%     -    0s
+H    0     0                     132.0000000  122.80384  6.97%     -    0s
+     0     0  122.80384    0  199  132.00000  122.80384  6.97%     -    0s
+     0     0  122.80508    0  199  132.00000  122.80508  6.97%     -    0s
+     0     0  122.90423    0  199  132.00000  122.90423  6.89%     -    0s
+     0     0  122.96455    0  198  132.00000  122.96455  6.85%     -    0s
+     0     0  122.97650    0  200  132.00000  122.97650  6.84%     -    0s
+     0     0  122.97928    0  200  132.00000  122.97928  6.83%     -    0s
+     0     0  122.97958    0  200  132.00000  122.97958  6.83%     -    0s
+     0     0  123.02916    0  199  132.00000  123.02916  6.80%     -    0s
+     0     0  123.03808    0  200  132.00000  123.03808  6.79%     -    0s
+     0     0  123.04163    0  200  132.00000  123.04163  6.79%     -    0s
+     0     0  123.04189    0  200  132.00000  123.04189  6.79%     -    0s
+     0     0  123.06854    0  198  132.00000  123.06854  6.77%     -    0s
+     0     0  123.10231    0  199  132.00000  123.10231  6.74%     -    0s
+     0     0  123.11360    0  199  132.00000  123.11360  6.73%     -    0s
+     0     0  123.11406    0  199  132.00000  123.11406  6.73%     -    0s
+     0     0  123.20136    0  200  132.00000  123.20136  6.67%     -    0s
+     0     0  123.21057    0  200  132.00000  123.21057  6.66%     -    0s
+     0     0  123.21871    0  200  132.00000  123.21871  6.65%     -    0s
+     0     0  123.21882    0  199  132.00000  123.21882  6.65%     -    0s
+     0     0  123.21904    0  199  132.00000  123.21904  6.65%     -    0s
+     0     0  123.21904    0  200  132.00000  123.21904  6.65%     -    0s
+     0     0  123.21904    0  198  132.00000  123.21904  6.65%     -    0s
+     0     2  123.21904    0  198  132.00000  123.21904  6.65%     -    0s
+H  177   179                     131.0000000  124.29134  5.12%   110    2s
+  1673   487     cutoff   15       131.00000  125.45203  4.24%  66.3    5s
+
+Cutting planes:
+  Gomory: 1
+  Zero half: 56
+  RLT: 132
+  BQP: 39
+
+Explored 7839 nodes (452316 simplex iterations) in 6.85 seconds (1.90 work units)
+Thread count was 32 (of 48 available processors)
+
+Solution count 8: 131 132 134 ... 148
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.310000000000e+02, best bound 1.310000000000e+02, gap 0.0000%
+Vertex cover found by the ILP solver:
+[0, 2, 3, 6, 7, 8, 9, 10, 11, 12, 14, 17, 24, 27, 28, 29, 31, 32, 33, 35, 36, 39, 40, 41, 42, 43, 46, 47, 48, 52, 54, 55, 56, 59, 60, 61, 62, 63, 64, 66, 67, 69, 70, 71, 73, 74, 76, 78, 79, 80, 82, 83, 86, 87, 88, 89, 90, 91, 93, 94, 95, 97, 98, 100, 101, 102, 103, 104, 107, 108, 109, 110, 112, 113, 116, 117, 119, 120, 122, 123, 124, 126, 128, 130, 131, 132, 133, 134, 135, 136, 139, 140, 141, 143, 144, 145, 146, 147, 148, 151, 154, 155, 156, 157, 159, 161, 162, 165, 166, 167, 170, 171, 173, 174, 175, 177, 178, 179, 181, 183, 184, 186, 187, 188, 189, 190, 192, 193, 194, 195, 198]
+Number of vertices in the ILP vertex cover:
+131
+Max mu+1 generations: 640000
+Cut-off after 282 same generation fitness values
+generation, unique_ind, population_fitness, best_ind_vc_cnt, mean_vc_overlap, std_vc_overlap, avg_node_degree, avg_node_leafes 
+

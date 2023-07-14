@@ -1,0 +1,48 @@
+[INFO] Module Python/3.10.4 loaded.
+Gurobi shell based on Python 3.10.4 can be launched with command `gurobi.sh`
+Gurobi Python Interface can be loaded in Python 3.10.4 with 'import gurobipy'
+[INFO] Module Gurobi/10.0.0 loaded.
+------------------------------------------------------------
+SLURM JOB NAME: eva-vc__n-50__mu-32__a-0.05__dist-uniform1__d-4
+SLURM JOB ID: 36735985
+Running on nodes: ncm0023
+Number of CPUs: 16
+Started at Fri Jul 14 16:44:43 CEST 2023
+------------------------------------------------------------
+Set parameter TSPort to value 50039
+Set parameter TokenServer to value "license6.itc.rwth-aachen.de"
+Set parameter TimeLimit to value 3600
+Gurobi Optimizer version 10.0.0 build v10.0.0rc2 (linux64)
+
+CPU model: Intel(R) Xeon(R) Platinum 8160 CPU @ 2.10GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 48 physical cores, 48 logical processors, using up to 32 threads
+
+Optimize a model with 100 rows, 50 columns and 200 nonzeros
+Model fingerprint: 0xda14b8cd
+Variable types: 0 continuous, 50 integer (50 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [2e+01, 2e+03]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Found heuristic solution: objective 31086.000000
+Presolve removed 45 rows and 17 columns
+Presolve time: 0.00s
+Presolved: 55 rows, 33 columns, 113 nonzeros
+Found heuristic solution: objective 25088.000000
+Variable types: 0 continuous, 33 integer (33 binary)
+
+Root relaxation: objective 2.401800e+04, 32 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+*    0     0               0    24018.000000 24018.0000  0.00%     -    0s
+
+Explored 1 nodes (32 simplex iterations) in 0.01 seconds (0.00 work units)
+Thread count was 32 (of 48 available processors)
+
+Solution count 3: 24018 25088 31086 
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 2.401800000000e+04, best bound 2.401800000000e+04, gap 0.0000%

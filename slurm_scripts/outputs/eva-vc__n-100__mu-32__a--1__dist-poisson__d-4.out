@@ -1,0 +1,64 @@
+[INFO] Module Python/3.10.4 loaded.
+Gurobi shell based on Python 3.10.4 can be launched with command `gurobi.sh`
+Gurobi Python Interface can be loaded in Python 3.10.4 with 'import gurobipy'
+[INFO] Module Gurobi/10.0.0 loaded.
+------------------------------------------------------------
+SLURM JOB NAME: eva-vc__n-100__mu-32__a--1__dist-poisson__d-4
+SLURM JOB ID: 36736009
+Running on nodes: ncm0070
+Number of CPUs: 16
+Started at Fri Jul 14 16:44:42 CEST 2023
+------------------------------------------------------------
+Set parameter TSPort to value 50039
+Set parameter TokenServer to value "license6.itc.rwth-aachen.de"
+Set parameter TimeLimit to value 3600
+Gurobi Optimizer version 10.0.0 build v10.0.0rc2 (linux64)
+
+CPU model: Intel(R) Xeon(R) Platinum 8160 CPU @ 2.10GHz, instruction set [SSE2|AVX|AVX2|AVX512]
+Thread count: 48 physical cores, 48 logical processors, using up to 32 threads
+
+Optimize a model with 200 rows, 100 columns and 400 nonzeros
+Model fingerprint: 0xc573f1a5
+Variable types: 0 continuous, 100 integer (100 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+00]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+00]
+  RHS range        [1e+00, 1e+00]
+Found heuristic solution: objective 60.0000000
+Presolve removed 27 rows and 13 columns
+Presolve time: 0.00s
+Presolved: 173 rows, 87 columns, 352 nonzeros
+Variable types: 0 continuous, 87 integer (87 binary)
+
+Root relaxation: objective 5.000000e+01, 105 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0   50.00000    0   80   60.00000   50.00000  16.7%     -    0s
+H    0     0                      59.0000000   50.00000  15.3%     -    0s
+H    0     0                      58.0000000   50.00000  13.8%     -    0s
+H    0     0                      56.0000000   50.00000  10.7%     -    0s
+H    0     0                      53.0000000   50.00000  5.66%     -    0s
+
+Cutting planes:
+  Zero half: 26
+  RLT: 12
+  BQP: 8
+
+Explored 1 nodes (130 simplex iterations) in 0.02 seconds (0.00 work units)
+Thread count was 32 (of 48 available processors)
+
+Solution count 5: 53 56 58 ... 60
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 5.300000000000e+01, best bound 5.300000000000e+01, gap 0.0000%
+Vertex cover found by the ILP solver:
+[2, 3, 4, 5, 6, 8, 10, 11, 12, 16, 18, 19, 20, 21, 22, 25, 30, 31, 33, 34, 35, 36, 38, 39, 43, 44, 45, 48, 49, 50, 51, 52, 54, 56, 60, 62, 64, 65, 69, 72, 73, 75, 81, 83, 84, 86, 87, 90, 91, 93, 95, 97, 98]
+Number of vertices in the ILP vertex cover:
+53
+Max mu+1 generations: 320000
+Cut-off after 336 same generation fitness values
+generation, unique_ind, population_fitness, best_ind_vc_cnt, mean_vc_overlap, std_vc_overlap, avg_node_degree, avg_node_leafes 
+
