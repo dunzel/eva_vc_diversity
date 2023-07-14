@@ -75,36 +75,50 @@ def mvc_hamming_diversity(ind, population):
 
 
 def node_overlap(ind1, ind2):
-    # not a good idea:
-    # tends to set every individual to list of 0s
+    """
+    Calculates the node overlap (shared vc nodes) between two individuals
+    """
     VC_set_1 = set(i for i, x in enumerate(ind1) if x == 1)
     VC_set_2 = set(i for i, x in enumerate(ind2) if x == 1)
     overlap = len(VC_set_1 & VC_set_2)
     return overlap
 
 
-def node_overlap_ind_to_pop(ind, population):
-    population = remove_first_instance(population.copy(), ind)
+def node_overlap_ind_to_pop(index, population):
+    """
+    Calculates the average node overlap between an individual and the rest of the population
+    """
+    ind = population[index]
+    pop_without_ind = population[:index] + population[index + 1:]
 
     overlap = 0
-    for i in population:
+    for i in pop_without_ind:
         overlap += node_overlap(ind, i)
 
-    overlap /= len(population)
+    overlap /= len(pop_without_ind)
 
     return overlap
 
 
-def node_overlap_pop_mean_std(population):
-    mean = 0
-    for i in population:
-        mean += node_overlap_ind_to_pop(i, population)
-    mean /= len(population)
+def node_overlap_pop_mean_std(population, pool):
+    """
+    Calculates the mean and std of the node overlap of the population
+    """
+    if pool:
+        overlaps = pool.starmap(node_overlap_ind_to_pop, [(i, population) for i in range(len(population))])
 
-    std = 0
-    for i in population:
-        std += (node_overlap_ind_to_pop(i, population) - mean) ** 2
-    std /= len(population)
-    std = std ** 0.5
+        mean = sum(overlaps) / len(overlaps)
+        std = ((sum((x - mean) ** 2 for x in overlaps)) / len(overlaps)) ** 0.5
+    else:
+        mean = 0
+        for i in population:
+            mean += node_overlap_ind_to_pop(i, population)
+        mean /= len(population)
 
-    return mean, std
+        std = 0
+        for i in population:
+            std += (node_overlap_ind_to_pop(i, population) - mean) ** 2
+        std /= len(population)
+        std = std ** 0.5
+
+    return round(mean, 2), round(std, 2)

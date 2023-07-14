@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
+from eva_algos.fitness_functions import node_overlap_pop_mean_std
 from eva_algos.utils import C, get_vertex_nodes_idx, get_ind_from_vertex_nodes_idx, count_unique_pop
 from instances.instance_renderer import vertex_cover_graph
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
@@ -87,6 +88,7 @@ def mu_plus_one_ea():
     last_gen_diversity = same_diversity_cnt = last_gen_fitness = same_fitness_cnt = i = 0
 
     # Initialise Pool object outside the loop
+    pool = None
     if USE_PARALLEL:
         pool = Pool()
 
