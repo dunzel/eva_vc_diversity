@@ -1,5 +1,6 @@
 import os
 import random
+import time
 from datetime import datetime
 from multiprocessing import Pool
 
@@ -12,7 +13,7 @@ from eva_algos.utils import C, get_vertex_nodes_idx, get_ind_from_vertex_nodes_i
 from instances.instance_renderer import vertex_cover_graph
 from settings import NUM_GENERATIONS, MU, ALPHA, GRAPH_INSTANCE, POPULATION_GENERATOR, \
     FITNESS_FX, MUTATION_FX, NUM_GENES, EARLY_DIVERSE_STOP, CONSTRAINT, EARLY_DIVERSE_STOP_CNT, \
-    NO_FIT_IMP_STOP_CNT, RANDOM_SEED, DELTA, SETTINGS_DICT, LOGGING, USE_PARALLEL, DISTRIBUTION
+    NO_FIT_IMP_STOP_CNT, RANDOM_SEED, DELTA, SETTINGS_DICT, LOGGING, USE_PARALLEL, DISTRIBUTION, START_TIME, TIME_LIMIT
 from misc.mvc_solver import ilp_solve_mvc
 
 
@@ -188,6 +189,10 @@ def mu_plus_one_ea():
                 print(f"Early stopped reason: no improvement in fitness for {NO_FIT_IMP_STOP_CNT} generations")
                 break
 
+        if time.time() - START_TIME  > TIME_LIMIT:
+            print(f"Early stopped reason: time limit reached")
+            break
+
     print(f"Finished after {i} generations")
     print(f"Found {count_unique_pop(P)} different individuals")
     print(f"The population has a fitness of {FITNESS_FX(None, P)}")
@@ -205,13 +210,6 @@ def mu_plus_one_ea():
     best_found_vc = get_vertex_nodes_idx(best_ind)
 
     if LOGGING:
-        # saving the best individual to file
-        with open(log_dir + "best_found_vc.txt", "w") as f:
-            f.write(str(best_found_vc))
-
-        # saving the best individual as plot to file
-        vertex_cover_graph(GRAPH_INSTANCE, best_found_vc, log_dir + "best_found_vc.png")
-
         # saving the population to file
         with open(log_dir + "population.txt", "w") as f:
             # order the population by its decimal representation
@@ -220,12 +218,20 @@ def mu_plus_one_ea():
             for ind in P:
                 f.write(str(ind) + "\n")
 
+        # saving the best individual to file
+        with open(log_dir + "best_found_vc.txt", "w") as f:
+            f.write(str(best_found_vc))
+
+        # saving the best individual as plot to file
+        vertex_cover_graph(GRAPH_INSTANCE, best_found_vc, log_dir + "best_found_vc.png")
+
+
         # saving every individual of the population as plot to the directory pop_plots
-        pop_plots_dir = log_dir + "pop_plots/"
-        if not os.path.exists(pop_plots_dir):
-            os.makedirs(pop_plots_dir)
-        for i, ind in enumerate(P):
-            vertex_cover_graph(GRAPH_INSTANCE, get_vertex_nodes_idx(ind), pop_plots_dir + f"ind_{i}.png")
+        # pop_plots_dir = log_dir + "pop_plots/"
+        # if not os.path.exists(pop_plots_dir):
+        #     os.makedirs(pop_plots_dir)
+        # for i, ind in enumerate(P):
+        #     vertex_cover_graph(GRAPH_INSTANCE, get_vertex_nodes_idx(ind), pop_plots_dir + f"ind_{i}.png")
 
         # plotting the log
         df = pd.read_csv(log_dir + "log.txt", header=None,

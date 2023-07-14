@@ -1,5 +1,6 @@
 import math
 import re
+import time
 
 from eva_algos.fitness_functions import mvc_hamming_diversity
 from eva_algos.initial_population import all_ones_pop, heuristic_pop
@@ -39,6 +40,8 @@ LOGGING = True
 ### misc settings ###
 RANDOM_SEED = 42
 USE_PARALLEL = True
+START_TIME = time.time()
+TIME_LIMIT = 162000  # 45h time limit
 
 ######################################
 # creating dict for logging settings #
