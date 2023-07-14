@@ -32,7 +32,7 @@ def heuristic_pop(mu, n, alpha, OPT, adjacency_matrix, mvc_ind):
             break
         else:
             curr_time = time.time()
-            if curr_time - start_time > 60 * 60:
+            if curr_time - start_time > 5 * 60:  # 5 minutes time limit
                 print("Heuristic pop: timeout")
                 init_ind = mvc_ind
                 break

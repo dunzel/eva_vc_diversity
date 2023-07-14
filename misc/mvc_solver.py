@@ -15,7 +15,7 @@ def ilp_solve_mvc(adjacency_matrix):
     V, E = get_graph_representation(adjacency_matrix)
 
     model = Model("MVC")
-    model.setParam('TimeLimit', 60 * 60)  # 1 hour time limit
+    model.setParam('TimeLimit', 5 * 60)  # 5 minute time limit
     model.modelSense = GRB.MINIMIZE
 
     # Defining the variables
