@@ -51,7 +51,7 @@ LOGGING = True
 RANDOM_SEED = 42
 USE_PARALLEL = True
 START_TIME = time.time()
-TIME_LIMIT = 162000  # 45h time limit
+TIME_LIMIT = 16200  # 4.5h time limit
 
 ######################################
 # creating dict for logging settings #
