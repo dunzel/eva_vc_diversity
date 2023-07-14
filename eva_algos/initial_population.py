@@ -7,6 +7,7 @@
 # mvc_ind is the minimum vertex cover as an individual
 # The function needs to return a list of lists of 0s and 1s
 import copy
+import time
 
 import numpy as np
 
@@ -22,12 +23,19 @@ def heuristic_pop(mu, n, alpha, OPT, adjacency_matrix, mvc_ind):
     init_ind = None
     constrained = OPT < np.inf
 
+    start_time = time.time()
     while True:
         zero_ind = [0] * n
         init_ind = repair_ind(zero_ind, adjacency_matrix, constrained)
 
         if C(init_ind, constrained, adjacency_matrix) <= (1 + alpha) * OPT:
             break
+        else:
+            curr_time = time.time()
+            if curr_time - start_time > 60 * 60:
+                print("Heuristic pop: timeout")
+                init_ind = mvc_ind
+                break
 
     P = [init_ind] * mu
 

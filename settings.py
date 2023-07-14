@@ -20,12 +20,12 @@ DISTRIBUTION = "uniform1"      # "uniform1", "uniform2", "uniform3" or "poisson"
 ### fixed settings ###
 GRAPH_INSTANCE = load_instance(GRAPH_FILE_NAME)     # Don't change this
 NUM_GENES = len(GRAPH_INSTANCE)                     # Don't change this
-NUM_GENERATIONS = MU * 2 * NUM_GENES                # Don't change this
+NUM_GENERATIONS = MU * NUM_GENES**2                 # Don't change this
 
 ### early stopping settings ###
 EARLY_DIVERSE_STOP = False                                 # stop, if all individuals in the population are different
 EARLY_DIVERSE_STOP_CNT = 0                                 # stop, if diversity hasn't increased this many generations
-NO_FIT_IMP_STOP_CNT = int(200 * (0.99826**NUM_GENES))      # stop, if fitness has not increased this many generations
+NO_FIT_IMP_STOP_CNT = int(400 * (0.99826**NUM_GENES))      # stop, if fitness has not increased this many generations
 
 ### callbacks/function settings ###
 POPULATION_GENERATOR = all_ones_pop if not CONSTRAINT else heuristic_pop

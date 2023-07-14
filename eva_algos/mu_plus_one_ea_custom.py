@@ -79,6 +79,7 @@ def mu_plus_one_ea():
         vertex_cover_graph(GRAPH_INSTANCE, min_vc, log_dir + "ilp_min_vc.png")
 
         print(f"Max mu+1 generations: {NUM_GENERATIONS}")
+        print(f"Cut-off after {NO_FIT_IMP_STOP_CNT} same generation fitness values")
         print("generation, unique_ind, population_fitness, best_ind_vc_cnt, mean_vc_overlap, std_vc_overlap, "
               "avg_node_degree, avg_node_leafes \n")
 
