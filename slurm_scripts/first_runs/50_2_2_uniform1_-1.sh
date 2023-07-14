@@ -1,10 +1,10 @@
 #!/usr/bin/env zsh
 
 ### Job name
-#SBATCH --job-name=eva-vc__n-50__mu-2__a-0.5__dist-poisson__d-2
+#SBATCH --job-name=eva-vc__n-50__mu-2__a--1__dist-uniform1__d-2
 
 ### declare the merged STDOUT/STDERR file
-#SBATCH --output=/home/wy360425/eva_vc_diversity/slurm/outputs/eva-vc__n-50__mu-2__a-0.5__dist-poisson__d-2.out
+#SBATCH --output=/home/wy360425/eva_vc_diversity/slurm_scripts/outputs/eva-vc__n-50__mu-2__a--1__dist-uniform1__d-2.out
 
 ### Request the time you need for execution in minutes
 ### The format for the parameter is: hour:minute:seconds,
@@ -38,7 +38,7 @@ echo "------------------------------------------------------------"
 export PYTHONPATH=/usr/local_rwth/sw/gurobi/gurobi911/linux64/lib:/usr/local_rwth/sw/gurobi/gurobi911/linux64/lib/python3.9_utf32:/usr/local_rwth/sw/python/3.9.6/x86_64/extra/lib/python3.9/site-packages::~/eva_vc_diversity/:/home/wy360425/eva_vc_diversity/
 echo ${PYTHONPATH}
 pip install -r requirements.txt
-python3 main.py --n 50 --delta 2 --mu 2 --distribution poisson --alpha 0.5
+python3 main.py --n 50 --delta 2 --mu 2 --distribution uniform1 --alpha -1
 
 ### end of executable commands
 ENDTIME=$(date +%s)
