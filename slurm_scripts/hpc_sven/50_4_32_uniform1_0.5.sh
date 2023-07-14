@@ -4,7 +4,7 @@
 #SBATCH --job-name=eva-vc__n-50__mu-32__a-0.5__dist-uniform1__d-4
 
 ### declare the merged STDOUT/STDERR file
-#SBATCH --output=$HOME/eva_vc_diversity/slurm_scripts/outputs/eva-vc__n-50__mu-32__a-0.5__dist-uniform1__d-4.out
+#SBATCH --output=/home/wy360425/eva_vc_diversity/slurm_scripts/outputs/eva-vc__n-50__mu-32__a-0.5__dist-uniform1__d-4.out
 
 ### Request the time you need for execution in minutes
 ### The format for the parameter is: hour:minute:seconds,
