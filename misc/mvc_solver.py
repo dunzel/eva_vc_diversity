@@ -1,13 +1,13 @@
 from gurobipy import *
 
 from eva_algos.utils import get_graph_representation
-from settings import CONSTRAINT
 
 
-def ilp_solve_mvc(adjacency_matrix):
+def ilp_solve_mvc(adjacency_matrix, constrained=True):
     """
     Solves the minimum vertex cover problem using an ILP formulation
     :param adjacency_matrix: the adjacency matrix of the graph
+    :param constrained: whether to use the constrained formulation or not
     :return: the minimum vertex cover
     """
 
@@ -26,7 +26,7 @@ def ilp_solve_mvc(adjacency_matrix):
     model.update()
 
     # Objective function
-    if not CONSTRAINT:
+    if not constrained:
         model.setObjective(quicksum(x[v] for v in V), GRB.MINIMIZE)
     else:
         model.setObjective(quicksum(x[v] * adjacency_matrix[v][v] for v in V), GRB.MINIMIZE)

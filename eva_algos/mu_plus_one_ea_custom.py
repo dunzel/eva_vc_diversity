@@ -67,7 +67,7 @@ def mu_plus_one_ea():
     ####################################
 
     # Calculate the minimum vertex cover
-    min_vc = ilp_solve_mvc(GRAPH_INSTANCE)
+    min_vc = ilp_solve_mvc(GRAPH_INSTANCE, CONSTRAINT)
     min_vc_ind = get_ind_from_vertex_nodes_idx(min_vc, NUM_GENES)
     OPT = C(min_vc_ind, True, GRAPH_INSTANCE) if CONSTRAINT else np.Inf
 
