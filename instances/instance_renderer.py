@@ -34,7 +34,7 @@ def draw_graph(graph, vertex_cover=None, population=None, save_path=None):
     plt.figure(figsize=(15, 15))
 
     # Use a circular layout for the nodes
-    pos = nx.spring_layout(graph, k=0.70, seed=RENDER_SEED)
+    pos = nx.spring_layout(graph, k=0.6, seed=RENDER_SEED)
 
     # Set node and edge drawing options
     node_options = {"alpha": 1.0}  # Alpha set to 1.0 for non-transparent nodes
@@ -42,8 +42,8 @@ def draw_graph(graph, vertex_cover=None, population=None, save_path=None):
 
     # Define the normal node size, as well as the minimum and maximum node sizes
     normal_node_size = 500
-    min_node_size = 0.5 * normal_node_size
-    max_node_size = 3 * normal_node_size
+    min_node_size = 1 * normal_node_size
+    max_node_size = 5 * normal_node_size
 
     # Get the weights of the nodes but sort them by node index
     node_weights = np.array([graph.nodes[i]["weight"] for i in sorted(graph.nodes())])
@@ -144,7 +144,7 @@ if __name__ == "__main__":
     from misc.mvc_solver import ilp_solve_mvc
 
     # plain graph
-    loaded_adjacency_matrix = load_instance("./200_2.txt")
+    loaded_adjacency_matrix = load_instance("./50_2.txt")
     plain_graph(loaded_adjacency_matrix)
 
     # vertex cover graph
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     vertex_cover_graph(loaded_adjacency_matrix, mvc_optimum)
 
     # heatmap population graph
-    with open("../results/constrained_0.05/n-200_d-2_m-64_uniform1/population.txt", "r") as file:
+    with open("../results/constrained_0.05/n-50_d-2_m-64_uniform1/population.txt", "r") as file:
         population = np.array([eval(line.strip()) for line in file.readlines()])
     vertex_cover_graph(loaded_adjacency_matrix, None, population)
 
