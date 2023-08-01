@@ -1,8 +1,9 @@
 import networkx as nx
+import numpy as np
 from matplotlib import pyplot as plt
 
-from settings import RANDOM_SEED
 
+RENDER_SEED = 42
 EDGE_WEIGHT = 1  # Don't change! Is 1 if there should be an edge weight
 
 
@@ -14,7 +15,7 @@ def create_graph_from_adj_matrix(adjacency_matrix):
     """
     graph = nx.Graph()
     for i in range(len(adjacency_matrix)):
-        graph.add_node(i)
+        graph.add_node(i, weight=adjacency_matrix[i][i])
         for j in range(len(adjacency_matrix)):
             if adjacency_matrix[i][j] == EDGE_WEIGHT:
                 graph.add_edge(i, j)
@@ -33,20 +34,40 @@ def draw_graph(graph, vertex_cover=None, save_path=None):
     plt.figure(figsize=(15, 15))
 
     # Use a circular layout for the nodes
-    pos = nx.spring_layout(graph, k=0.70, seed=RANDOM_SEED)
+    pos = nx.spring_layout(graph, k=0.70, seed=RENDER_SEED)
 
     # Set node and edge drawing options
-    node_options = {"node_size": 500, "alpha": 1.0}  # Alpha set to 1.0 for non-transparent nodes
+    node_options = {"alpha": 1.0}  # Alpha set to 1.0 for non-transparent nodes
     edge_options = {"width": 2, "alpha": 0.3}
+
+    # Define the normal node size, as well as the minimum and maximum node sizes
+    normal_node_size = 500
+    min_node_size = 0.5 * normal_node_size
+    max_node_size = 3 * normal_node_size
+
+    # Get the weights of the nodes but sort them by node index
+    node_weights = np.array([graph.nodes[i]["weight"] for i in sorted(graph.nodes())])
+
+    # Normalize the weights to range from 0 to 1
+    normalized_weights = (node_weights - node_weights.min()) / (node_weights.max() - node_weights.min())
+
+    # Scale the normalized weights to range from min_node_size to max_node_size
+    node_sizes = min_node_size + normalized_weights * (max_node_size - min_node_size)
 
     # Draw non-vertex-cover nodes with a black outline and white fill color, black font
     non_vertex_cover = [node for node in graph.nodes() if vertex_cover is None or node not in vertex_cover]
-    nx.draw_networkx_nodes(graph, pos, nodelist=non_vertex_cover, edgecolors='black', node_color='white', **node_options)
+    nx.draw_networkx_nodes(graph, pos, nodelist=non_vertex_cover,
+                           node_color='white', edgecolors='black',
+                           node_size=[node_sizes[i] for i in non_vertex_cover],
+                           **node_options)
     nx.draw_networkx_labels(graph, pos, labels={node: node for node in non_vertex_cover}, font_color='black')
 
     if vertex_cover is not None:
         # Draw vertex-cover nodes with a white outline and black fill color, white font
-        nx.draw_networkx_nodes(graph, pos, nodelist=vertex_cover, edgecolors='white', node_color='black', **node_options)
+        nx.draw_networkx_nodes(graph, pos, nodelist=vertex_cover,
+                               node_color='black', edgecolors='white',
+                               node_size=[node_sizes[i] for i in vertex_cover],
+                               **node_options)
         nx.draw_networkx_labels(graph, pos, labels={node: node for node in vertex_cover}, font_color='white')
 
     # Draw edges
@@ -92,7 +113,7 @@ if __name__ == "__main__":
     from instance_generator import load_instance
     from misc.mvc_solver import ilp_solve_mvc
 
-    loaded_adjacency_matrix = load_instance("5_0.2_0.2.txt")
+    loaded_adjacency_matrix = load_instance("./50_8.txt")
     plain_graph(loaded_adjacency_matrix)
     mvc_optimum = ilp_solve_mvc(loaded_adjacency_matrix)
     vertex_cover_graph(loaded_adjacency_matrix, mvc_optimum)
