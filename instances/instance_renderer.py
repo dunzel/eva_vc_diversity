@@ -1,7 +1,7 @@
 import networkx as nx
 import numpy as np
 from matplotlib import pyplot as plt
-
+import matplotlib.cm as cm
 
 RENDER_SEED = 42
 EDGE_WEIGHT = 1  # Don't change! Is 1 if there should be an edge weight
@@ -22,7 +22,7 @@ def create_graph_from_adj_matrix(adjacency_matrix):
     return graph
 
 
-def draw_graph(graph, vertex_cover=None, save_path=None):
+def draw_graph(graph, vertex_cover=None, population=None, save_path=None):
     """
     Draw a NetworkX graph with optional vertex cover.
     :param graph: The graph to be drawn
@@ -55,20 +55,57 @@ def draw_graph(graph, vertex_cover=None, save_path=None):
     node_sizes = min_node_size + normalized_weights * (max_node_size - min_node_size)
 
     # Draw non-vertex-cover nodes with a black outline and white fill color, black font
-    non_vertex_cover = [node for node in graph.nodes() if vertex_cover is None or node not in vertex_cover]
-    nx.draw_networkx_nodes(graph, pos, nodelist=non_vertex_cover,
-                           node_color='white', edgecolors='black',
-                           node_size=[node_sizes[i] for i in non_vertex_cover],
-                           **node_options)
-    nx.draw_networkx_labels(graph, pos, labels={node: node for node in non_vertex_cover}, font_color='black')
-
-    if vertex_cover is not None:
-        # Draw vertex-cover nodes with a white outline and black fill color, white font
-        nx.draw_networkx_nodes(graph, pos, nodelist=vertex_cover,
-                               node_color='black', edgecolors='white',
-                               node_size=[node_sizes[i] for i in vertex_cover],
+    if population is None:
+        non_vertex_cover = [node for node in graph.nodes() if vertex_cover is None or node not in vertex_cover]
+        nx.draw_networkx_nodes(graph, pos, nodelist=non_vertex_cover,
+                               node_color='white', edgecolors='black',
+                               node_size=[node_sizes[i] for i in non_vertex_cover],
                                **node_options)
-        nx.draw_networkx_labels(graph, pos, labels={node: node for node in vertex_cover}, font_color='white')
+        nx.draw_networkx_labels(graph, pos, labels={node: node for node in non_vertex_cover}, font_color='black')
+
+        if vertex_cover is not None:
+            # Draw vertex-cover nodes with a white outline and black fill color, white font
+            nx.draw_networkx_nodes(graph, pos, nodelist=vertex_cover,
+                                   node_color='black', edgecolors='white',
+                                   node_size=[node_sizes[i] for i in vertex_cover],
+                                   **node_options)
+            nx.draw_networkx_labels(graph, pos, labels={node: node for node in vertex_cover}, font_color='white')
+    else:
+        node_list = [node for node in graph.nodes()]
+        node_list.sort()
+
+        node_counts = population.sum(axis=0)
+        node_colors = node_counts / population.shape[0]
+        node_colors = 1 - node_colors
+
+        cmap = cm.get_cmap('Spectral')
+
+        def is_light(rgb):
+            """ function to determine if a color is 'light' or 'dark' """
+            yiq = ((rgb[0] * 299) + (rgb[1] * 587) + (rgb[2] * 114)) / 1000
+            return yiq >= 0.5
+
+        def get_font_color(node_color):
+            """ function to get the font color based on the node color """
+            rgb = cmap(node_color)[:3]
+            if is_light(rgb):
+                return 'black'
+            else:
+                return 'white'
+
+        # font colors for each node
+        font_colors = [get_font_color(node_color) for node_color in node_colors]
+
+        # Draw the nodes
+        nx.draw_networkx_nodes(graph, pos, nodelist=node_list,
+                               node_color=node_colors, edgecolors='black',
+                               node_size=node_sizes,
+                               cmap='Spectral', vmin=0, vmax=1,
+                               **node_options)
+
+        # Draw each label with a separate color
+        for node, color in zip(node_list, font_colors):
+            nx.draw_networkx_labels(graph, pos, labels={node: node}, font_color=color)
 
     # Draw edges
     nx.draw_networkx_edges(graph, pos, **edge_options)
@@ -89,7 +126,7 @@ def plain_graph(adjacency_matrix):
     draw_graph(graph)
 
 
-def vertex_cover_graph(adjacency_matrix, vertex_cover, save_path=None):
+def vertex_cover_graph(adjacency_matrix, vertex_cover, population=None, save_path=None):
     """
     basic graph renderer / with vertex cover
     :param adjacency_matrix: adjacency matrix of the graph
@@ -97,14 +134,7 @@ def vertex_cover_graph(adjacency_matrix, vertex_cover, save_path=None):
     :return:
     """
     graph = create_graph_from_adj_matrix(adjacency_matrix)
-    draw_graph(graph, vertex_cover, save_path)
-
-
-# 3. multiple vertex cover renderer
-# another function gets multiple vertex covers and color/size is based on how many times a node is in a vertex cover
-
-# 4. combines 2. and 3.
-# where 2 = optimal solution and 3 = solutions from GA => Jakobs fancy graphic
+    draw_graph(graph, vertex_cover, population, save_path)
 
 
 if __name__ == "__main__":
@@ -113,7 +143,16 @@ if __name__ == "__main__":
     from instance_generator import load_instance
     from misc.mvc_solver import ilp_solve_mvc
 
-    loaded_adjacency_matrix = load_instance("./50_8.txt")
+    # plain graph
+    loaded_adjacency_matrix = load_instance("./200_2.txt")
     plain_graph(loaded_adjacency_matrix)
+
+    # vertex cover graph
     mvc_optimum = ilp_solve_mvc(loaded_adjacency_matrix)
     vertex_cover_graph(loaded_adjacency_matrix, mvc_optimum)
+
+    # heatmap population graph
+    with open("../results/constrained_0.05/n-200_d-2_m-64_uniform1/population.txt", "r") as file:
+        population = np.array([eval(line.strip()) for line in file.readlines()])
+    vertex_cover_graph(loaded_adjacency_matrix, None, population)
+
