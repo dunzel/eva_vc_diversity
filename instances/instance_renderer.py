@@ -76,9 +76,8 @@ def draw_graph(graph, vertex_cover=None, population=None, save_path=None):
 
         node_counts = population.sum(axis=0)
         node_colors = node_counts / population.shape[0]
-        node_colors = 1 - node_colors
 
-        cmap = cm.get_cmap('Spectral')
+        cmap = cm.get_cmap('Greys')
 
         def is_light(rgb):
             """ function to determine if a color is 'light' or 'dark' """
@@ -100,7 +99,7 @@ def draw_graph(graph, vertex_cover=None, population=None, save_path=None):
         nx.draw_networkx_nodes(graph, pos, nodelist=node_list,
                                node_color=node_colors, edgecolors='black',
                                node_size=node_sizes,
-                               cmap='Spectral', vmin=0, vmax=1,
+                               cmap=cmap, vmin=0, vmax=1,
                                **node_options)
 
         # Draw each label with a separate color
