@@ -110,6 +110,9 @@ def draw_graph(graph, vertex_cover=None, population=None, save_path=None):
     # Draw edges
     nx.draw_networkx_edges(graph, pos, **edge_options)
 
+    plt.tight_layout()
+    plt.axis('off')
+
     if save_path is not None:
         plt.savefig(save_path)
     else:

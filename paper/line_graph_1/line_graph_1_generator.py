@@ -26,7 +26,7 @@ def get_line_graph():
     fig, axs = plt.subplots(3, figsize=(5, 6))
 
     for i, attr in enumerate(attributes):
-        axs[i].plot(df_uniform['generation'], df_uniform[attr], label='Uniform', color='black', linestyle='-')
+        axs[i].plot(df_uniform['generation'], df_uniform[attr], label='Single', color='black', linestyle='-')
         axs[i].plot(df_poisson['generation'], df_poisson[attr], label='Poisson', color='grey', linestyle='dashed')
         axs[i].set_title(titles[attr])
         axs[i].set_xlabel('Generations')
