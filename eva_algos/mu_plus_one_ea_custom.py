@@ -77,7 +77,7 @@ def mu_plus_one_ea():
             f.write(str(min_vc))
 
         # save min_vc_ind as plot to file
-        vertex_cover_graph(GRAPH_INSTANCE, min_vc, log_dir + "ilp_min_vc.png")
+        vertex_cover_graph(GRAPH_INSTANCE, min_vc, None, log_dir + "ilp_min_vc.png")
 
         print(f"Max mu+1 generations: {NUM_GENERATIONS}")
         print(f"Cut-off after {NO_FIT_IMP_STOP_CNT} same generation fitness values")
@@ -223,7 +223,7 @@ def mu_plus_one_ea():
             f.write(str(best_found_vc))
 
         # saving the best individual as plot to file
-        vertex_cover_graph(GRAPH_INSTANCE, best_found_vc, log_dir + "best_found_vc.png")
+        vertex_cover_graph(GRAPH_INSTANCE, best_found_vc, None, log_dir + "best_found_vc.png")
 
 
         # saving every individual of the population as plot to the directory pop_plots
