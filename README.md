@@ -44,7 +44,7 @@ You can use the following arguments:
 
 For example, to run the EDO algorithm with own parameters, you can use the following command:
 ```
-python3 main.py -n 100 -delta 2 -alpha 0.5 -mu 64 -distribution poisson
+python3 main.py --n 100 --delta 2 --alpha 0.5 --mu 64 --distribution poisson
 ```
 
 If these arguments are not enough, you can also change the parameters in the file "settings.py".
