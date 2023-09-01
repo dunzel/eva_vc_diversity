@@ -1,6 +1,6 @@
 # Evolutionary Diversity Optimization for Minimum Vertex Cover Problem
 This repository contains the source code for the paper "Evolutionary Diversity Optimization With An Example Application For Vertex Covers". 
-The paper can be found in the directory "paper" as "ECSE23-EDO-camera-ready.pdf". 
+The paper can be found in the directory "paper" as [ECSE23-EDO-camera-ready.pdf](paper/ECSE23-EDO-camera-ready.pdf).
 Furthermore, the paper directory contains the code for the generating the tables and figures in the paper.
 
 The directory "results" contains the results of our experiments. The first subdirectories distinguish between the constrained (with alpha) and unconstrained version of the problem.
