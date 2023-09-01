@@ -48,6 +48,3 @@ def multi_node_swap(parent, adjacency_matrix):
     offspring[selected_node] = 0
 
     return offspring
-
-# if too much time:
-# RepairOperation, NodeSwap, EdgeNodeSwap

@@ -225,14 +225,6 @@ def mu_plus_one_ea():
         # saving the best individual as plot to file
         vertex_cover_graph(GRAPH_INSTANCE, best_found_vc, None, log_dir + "best_found_vc.png")
 
-
-        # saving every individual of the population as plot to the directory pop_plots
-        # pop_plots_dir = log_dir + "pop_plots/"
-        # if not os.path.exists(pop_plots_dir):
-        #     os.makedirs(pop_plots_dir)
-        # for i, ind in enumerate(P):
-        #     vertex_cover_graph(GRAPH_INSTANCE, get_vertex_nodes_idx(ind), pop_plots_dir + f"ind_{i}.png")
-
         # plotting the log
         df = pd.read_csv(log_dir + "log.txt", header=None,
                          names=["generation", "unique_ind", "population_fitness", "best_ind_vc_cnt",
